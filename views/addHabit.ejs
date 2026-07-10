@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Habit - Serene Habit</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/addHabit.css" />
+</head>
+
+<body>
+    <!-- ========== TOP NAV ========== -->
+    <header class="top-nav">
+        <div class="container nav-container">
+            <button class="back-btn" onclick="history.back()">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <h1 class="page-headline">New Habit</h1>
+        </div>
+    </header>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="container main-content">
+        <form class="habit-form" id="habit-form" action="/addHabit" method="POST">
+
+            <!-- Habit Type Selection -->
+            <section class="form-section">
+                <label class="section-label">Habit Type</label>
+                <div class="type-grid">
+                    <div class="type-card" id="type-measurable" onclick="selectType('measurable')">
+                        <div class="type-icon">
+                            <span class="material-symbols-outlined">equalizer</span>
+                        </div>
+                        <span class="type-title">Measurable</span>
+                        <p class="type-description">Track units like liters, minutes, or pages.</p>
+                    </div>
+                    <div class="type-card active" id="type-yesno" onclick="selectType('yes or no')">
+                        <div class="type-icon">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <span class="type-title">Completed or Not</span>
+                        <p class="type-description">Simple binary tracking of completion.</p>
+                    </div>
+                </div>
+                <!-- Hidden input for habit type -->
+                <input type="hidden" name="habitType" id="habitType" value="yes or no">
+            </section>
+
+            <!-- Habit Name -->
+            <section class="form-section">
+                <label class="section-label" for="habit-name">Habit Name</label>
+                <div class="input-wrapper">
+                    <input class="form-input" id="habit-name" type="text" name="habitName"
+                        placeholder="e.g., Morning Meditation" required />
+                    <div class="input-icon">
+                        <span class="material-symbols-outlined">edit</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Habit Question -->
+            <section class="form-section">
+                <label class="section-label" for="habit-question">Habit Question</label>
+                <div class="input-wrapper">
+                    <input class="form-input" id="habit-question" type="text" name="habitQuestion"
+                        placeholder="e.g., Did you exercise today?" required />
+                    <div class="input-icon">
+                        <span class="material-symbols-outlined">help_outline</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Frequency -->
+            <section class="form-section">
+                <label class="section-label">Frequency</label>
+                <div class="frequency-group">
+                    <button class="freq-btn active" onclick="selectFrequency(this)" type="button"
+                        data-value="daily">Daily</button>
+                    <button class="freq-btn" onclick="selectFrequency(this)" type="button"
+                        data-value="weekly">Weekly</button>
+                    <button class="freq-btn" onclick="selectFrequency(this)" type="button"
+                        data-value="monthly">Monthly</button>
+                    <button class="freq-btn" onclick="selectFrequency(this)" type="button" data-value="custom">
+                        <span class="freq-custom">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            Custom
+                        </span>
+                    </button>
+                </div>
+                <!-- Hidden input for frequency -->
+                <input type="hidden" name="frequency" id="frequency" value="daily">
+            </section>
+
+            <!-- ========== ICON SELECTION - DROPDOWN STYLE ========== -->
+            <section class="form-section">
+                <label class="section-label">Choose Icon</label>
+                <div class="icon-picker-wrapper">
+                    <div class="icon-selector" onclick="toggleIconDropdown()">
+                        <div class="selected-icon-display">
+                            <span class="material-symbols-outlined" id="selectedIconDisplay">spa</span>
+                            <span id="selectedIconName">spa</span>
+                        </div>
+                        <span class="dropdown-arrow material-symbols-outlined">expand_more</span>
+                    </div>
+                    <div class="icon-dropdown" id="iconDropdown">
+                        <div class="icon-search">
+                            <input type="text" placeholder="Search icons..." oninput="filterIcons(this.value)" />
+                        </div>
+                        <div class="icon-list" id="iconList">
+                            <!-- Icons will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden input for selected icon -->
+                <input type="hidden" name="icon" id="selectedIcon" value="spa">
+            </section>
+
+            <!-- ========== ICON COLOR SELECTION ========== -->
+            <section class="form-section">
+                <label class="section-label">Icon Color</label>
+                <div class="color-grid">
+                    <div class="color-option active" data-color="#6366f1" onclick="selectColor(this)"
+                        style="background: #6366f1;"></div>
+                    <div class="color-option" data-color="#ef4444" onclick="selectColor(this)"
+                        style="background: #ef4444;"></div>
+                    <div class="color-option" data-color="#22c55e" onclick="selectColor(this)"
+                        style="background: #22c55e;"></div>
+                    <div class="color-option" data-color="#f59e0b" onclick="selectColor(this)"
+                        style="background: #f59e0b;"></div>
+                    <div class="color-option" data-color="#ec4899" onclick="selectColor(this)"
+                        style="background: #ec4899;"></div>
+                    <div class="color-option" data-color="#8b5cf6" onclick="selectColor(this)"
+                        style="background: #8b5cf6;"></div>
+                    <div class="color-option" data-color="#06b6d4" onclick="selectColor(this)"
+                        style="background: #06b6d4;"></div>
+                    <div class="color-option" data-color="#f97316" onclick="selectColor(this)"
+                        style="background: #f97316;"></div>
+                    <div class="color-option" data-color="#14b8a6" onclick="selectColor(this)"
+                        style="background: #14b8a6;"></div>
+                    <div class="color-option" data-color="#8b5cf6" onclick="selectColor(this)"
+                        style="background: #8b5cf6;"></div>
+                </div>
+                <input type="hidden" name="iconColor" id="selectedColor" value="#6366f1">
+            </section>
+
+            <!-- Atmospheric Card -->
+            <div class="motivation-card">
+                <div class="motivation-content">
+                    <h3 class="motivation-title">Stay Consistent</h3>
+                    <p class="motivation-text">Small daily wins lead to massive lifelong changes. Your journey starts
+                        now.</p>
+                </div>
+                <div class="motivation-image">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8uT7buiGYbadQtc3saHooXq2gPv5cvIrSM5jliqQT2rr0XiqgS9Uy9_MRbw4MIHjx7NCGxIFeO0DyFp03My772wbOSD65-ZyTSmjDVm7VrLPWfdxWAk_0BJ09og_h8_5kWdqzz_IpBMrHMuut3JhR6ilYsZyUPpCl1VAjxSACDQ_KvZzt-7Y0U6AE5XnV5ODglLkc3S3vyy1pVgwJd0YGOv0p_NuATmubmHOdqobycouYk-iNn5Ybmpfmk6sOwK5rA5HJWdRsgVk"
+                        alt="Serene sprout illustration" />
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-wrapper">
+                <button class="btn-submit" type="submit">Save Habit</button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- ========== BOTTOM NAV ========== -->
+    <nav class="bottom-nav">
+        <a class="nav-link" href="/">
+            <span class="material-symbols-outlined">home</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a class="nav-link active" href="/habits">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">checklist</span>
+            <span class="nav-label">Habits</span>
+        </a>
+        <a class="nav-link" href="/profile">
+            <span class="material-symbols-outlined">person</span>
+            <span class="nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        // Icon list
+        const iconList = [
+            'spa', 'exercise', 'book', 'water_drop', 'self_care',
+            'fitness_center', 'coffee', 'bedtime',
+            'run_circle', 'psychology', 'diversity_3', 'nutrition',
+            'emoji_objects', 'check_circle', 'mood', 'sunny',
+            'nights_stay', 'pets', 'music_note', 'brush',
+            'cleaning', 'restaurant', 'payments', 'calendar_month',
+            'alarm', 'devices', 'shopping_bag', 'favorite',
+            'star', 'health_and_safety', 'lightbulb', 'school',
+            'park', 'beach_access', 'pool', 'sports_tennis',
+            'directions_bike', 'directions_run', 'flight', 'train',
+            'work', 'code', 'design_services', 'palette',
+            'headphones', 'mic', 'videocam', 'photo_camera'
+        ];
+
+        // Populate icon list
+        function populateIcons(filter = '') {
+            const iconListEl = document.getElementById('iconList');
+            const filteredIcons = iconList.filter(icon =>
+                icon.includes(filter.toLowerCase())
+            );
+
+            iconListEl.innerHTML = filteredIcons.map(icon => `
+                <div class="icon-item" onclick="selectIconFromDropdown('${icon}')">
+                    <span class="material-symbols-outlined">${icon}</span>
+                    <span class="icon-name">${icon}</span>
+                </div>
+            `).join('');
+        }
+
+        // Toggle dropdown
+        function toggleIconDropdown() {
+            const dropdown = document.getElementById('iconDropdown');
+            dropdown.classList.toggle('show');
+            if (dropdown.classList.contains('show')) {
+                // Populate icons when opening
+                populateIcons();
+                // Focus search input
+                setTimeout(() => {
+                    document.querySelector('.icon-search input').focus();
+                }, 100);
+            }
+        }
+
+        // Filter icons
+        function filterIcons(query) {
+            populateIcons(query);
+        }
+
+        // Select icon from dropdown
+        function selectIconFromDropdown(icon) {
+            // Update display
+            document.getElementById('selectedIconDisplay').textContent = icon;
+            document.getElementById('selectedIconName').textContent = icon;
+            document.getElementById('selectedIcon').value = icon;
+
+            // Close dropdown
+            document.getElementById('iconDropdown').classList.remove('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const picker = document.querySelector('.icon-picker-wrapper');
+            if (picker && !picker.contains(e.target)) {
+                document.getElementById('iconDropdown').classList.remove('show');
+            }
+        });
+
+        // Select habit type
+        function selectType(type) {
+            const measurable = document.getElementById('type-measurable');
+            const yesno = document.getElementById('type-yesno');
+
+            measurable.classList.remove('active');
+            yesno.classList.remove('active');
+
+            if (type === 'measurable') {
+                measurable.classList.add('active');
+            } else {
+                yesno.classList.add('active');
+            }
+
+            document.getElementById('habitType').value = type;
+        }
+
+        // Select frequency
+        function selectFrequency(element) {
+            const buttons = element.parentElement.querySelectorAll('.freq-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const freqValue = element.getAttribute('data-value');
+            if (freqValue) {
+                document.getElementById('frequency').value = freqValue;
+            }
+        }
+
+        // Select color
+        function selectColor(element) {
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('selectedColor').value = element.dataset.color;
+        }
+
+        // Form submission
+        document.getElementById('habit-form').addEventListener('submit', function (e) {
+            const btn = this.querySelector('.btn-submit');
+            btn.textContent = 'Creating...';
+            btn.classList.add('loading');
+        });
+
+        // Check for success message
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                alert('Habit successfully created!');
+            }
+        });
+    </script>
+</body>
+
+</html>

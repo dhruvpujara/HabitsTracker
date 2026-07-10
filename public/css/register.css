@@ -1,0 +1,408 @@
+/* ============================================
+   Serene Habit - Main Styles
+   Based on Essentialist Minimalism design system
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    background-color: #f8f9f9;
+    color: #191c1c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ---------- Material Icons ---------- */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ---------- Background Overlay ---------- */
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    background: radial-gradient(ellipse at 30% 40%, rgba(184, 236, 236, 0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 60%, rgba(156, 208, 208, 0.2) 0%, transparent 50%);
+}
+
+/* ---------- Signup Container ---------- */
+.signup-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 64px 16px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .signup-container {
+        padding: 64px 40px;
+    }
+}
+
+/* ---------- Brand Section ---------- */
+.brand-section {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: #dae1e1;
+    border-radius: 9999px;
+    margin-bottom: 24px;
+    color: #306363;
+}
+
+.brand-icon .material-symbols-outlined {
+    font-size: 32px;
+}
+
+.brand-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #191c1c;
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+    .brand-title {
+        font-size: 32px;
+    }
+}
+
+.brand-subtitle {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #404848;
+    margin-top: 8px;
+}
+
+/* ---------- Signup Card ---------- */
+.signup-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border: 1px solid #bfc8c8;
+    border-radius: 12px;
+    padding: 32px;
+}
+
+@media (max-width: 768px) {
+    .signup-card {
+        padding: 24px;
+    }
+}
+
+/* ---------- Form ---------- */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #404848;
+    transition: color 0.2s ease;
+}
+
+.form-label.focused {
+    color: #306363;
+}
+
+/* ---------- Input Fields ---------- */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    background-color: #f8f9f9;
+    border: 1px solid #bfc8c8;
+    border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #191c1c;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #306363;
+    box-shadow: 0 0 0 1px #306363;
+}
+
+.form-input::placeholder {
+    color: #bfc8c8;
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #bfc8c8;
+    font-size: 24px;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.input-wrapper:focus-within .input-icon {
+    color: #306363;
+}
+
+/* ---------- Password Toggle ---------- */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #bfc8c8;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: #404848;
+}
+
+.toggle-password .material-symbols-outlined {
+    font-size: 24px;
+}
+
+/* ---------- Terms ---------- */
+.terms-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #707978;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.custom-checkbox:checked {
+    background-color: #306363;
+    border-color: #306363;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    background-size: 14px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.custom-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(48, 99, 99, 0.3);
+}
+
+.terms-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #404848;
+    cursor: pointer;
+}
+
+.terms-link {
+    color: #306363;
+    font-weight: 700;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Register Button ---------- */
+.submit-wrapper {
+    padding-top: 8px;
+}
+
+.btn-register {
+    width: 100%;
+    padding: 16px;
+    background-color: #306363;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-register:hover {
+    background-color: #4a7c7c;
+}
+
+.btn-register:active {
+    transform: scale(0.98);
+}
+
+.btn-register .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.btn-register.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.btn-register.success {
+    background-color: #9b6751;
+}
+
+/* ---------- Login Section ---------- */
+.login-section {
+    margin-top: 48px;
+    text-align: center;
+}
+
+.login-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #404848;
+}
+
+.login-link {
+    color: #306363;
+    font-weight: 700;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Footer Decoration ---------- */
+.footer-decoration {
+    margin-top: 96px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0.5;
+}
+
+.decoration-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 192px;
+    height: 4px;
+    background-color: #bfc8c8;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.decoration-fill {
+    background-color: #306363;
+    border-radius: 9999px;
+}
+
+/* ---------- Animation Helpers ---------- */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfc8c8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #707978;
+}

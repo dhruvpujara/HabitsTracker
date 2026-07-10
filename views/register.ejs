@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - Serene Habit</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/register.css" />
+</head>
+
+<body>
+    <!-- Atmospheric Background -->
+    <div class="bg-overlay"></div>
+
+    <!-- Main Registration Container -->
+    <main class="signup-container">
+        <!-- Brand Identity -->
+        <div class="brand-section">
+            <div class="brand-icon">
+                <span class="material-symbols-outlined">spa</span>
+            </div>
+            <h1 class="brand-title">Create Account</h1>
+            <p class="brand-subtitle">Start your journey towards a calm and focused life.</p>
+        </div>
+
+        <!-- Registration Form Card -->
+        <div class="signup-card">
+            <form class="signup-form" id="registrationForm" action="/register" method="POST">
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">Full Name</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" id="fullName" name="name" type="text" placeholder="Jane Doe"
+                            required />
+                        <span class="input-icon material-symbols-outlined">person</span>
+                    </div>
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" id="email" name="email" type="email" placeholder="jane@example.com"
+                            required />
+                        <span class="input-icon material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" id="password" name="password" type="password" placeholder="••••••••"
+                            required />
+                        <button class="toggle-password" type="button" onclick="togglePassword()">
+                            <span class="material-symbols-outlined" id="passwordIcon">visibility</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="terms-group">
+                    <input class="custom-checkbox" id="terms" name="terms" type="checkbox" required />
+                    <label class="terms-label" for="terms">
+                        I agree to the <a class="terms-link" href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Register Button -->
+                <div class="submit-wrapper">
+                    <button class="btn-register" type="submit">
+                        <span>Register</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Login Link -->
+        <div class="login-section">
+            <p class="login-text">
+                Already have an account?
+                <a class="login-link" href="/login">Login</a>
+            </p>
+        </div>
+
+        <!-- Decorative Footer -->
+        <div class="footer-decoration">
+            <div class="decoration-bar">
+                <div class="decoration-fill"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('passwordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.textContent = 'visibility';
+            }
+        }
+
+        // Input focus effects
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function () {
+                const group = this.closest('.form-group');
+                if (group) {
+                    const label = group.querySelector('.form-label');
+                    if (label) label.classList.add('focused');
+                }
+            });
+            input.addEventListener('blur', function () {
+                const group = this.closest('.form-group');
+                if (group) {
+                    const label = group.querySelector('.form-label');
+                    if (label) label.classList.remove('focused');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

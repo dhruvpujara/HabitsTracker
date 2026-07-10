@@ -1,0 +1,429 @@
+/* ============================================
+   Serene Habit - Profile Page Styles
+   Based on Essentialist Minimalism design system
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    background-color: #f8f9f9;
+    color: #191c1c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---------- Container ---------- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+/* ---------- Material Icons ---------- */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ---------- Top Navigation ---------- */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #f8f9f9;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid transparent;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.page-headline {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #191c1c;
+}
+
+@media (min-width: 768px) {
+    .page-headline {
+        font-size: 32px;
+    }
+}
+
+.settings-btn {
+    padding: 8px;
+    background: none;
+    border: none;
+    color: #404848;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-btn:hover {
+    color: #306363;
+}
+
+.settings-btn .material-symbols-outlined {
+    font-size: 24px;
+}
+
+/* ---------- Main Content ---------- */
+.main-content {
+    padding-top: 32px;
+    padding-bottom: 128px;
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* ---------- Profile Header ---------- */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 48px;
+    animation: fadeInUp 0.7s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-greeting {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.greeting-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #306363;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 640px) {
+    .greeting-title {
+        font-size: 36px;
+    }
+}
+
+.greeting-subtitle {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: #404848;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.member-since {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #404848;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ---------- Stats Grid ---------- */
+.stats-section {
+    margin-bottom: 64px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    background-color: #f3f4f4;
+    border: 1px solid #bfc8c8;
+    padding: 24px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.stat-card:hover {
+    background-color: #dae1e1;
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 24px;
+    color: #306363;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.stat-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #404848;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #306363;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Settings Section ---------- */
+.settings-section {
+    margin-bottom: 64px;
+}
+
+.settings-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #404848;
+    padding: 0 8px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.settings-list {
+    background-color: #f8f9f9;
+    border: 1px solid #bfc8c8;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.settings-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: 'Manrope', sans-serif;
+}
+
+.settings-item:hover {
+    background-color: #edeeee;
+}
+
+.settings-item-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.settings-item-icon {
+    font-size: 24px;
+    color: #586060;
+}
+
+.settings-item-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: #191c1c;
+}
+
+.settings-item-arrow {
+    font-size: 24px;
+    color: #bfc8c8;
+}
+
+.settings-divider {
+    height: 1px;
+    background-color: #bfc8c8;
+    margin: 0 16px;
+}
+
+/* ---------- Logout Section ---------- */
+.logout-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 12px 24px;
+    background: none;
+    border: 1px solid #306363;
+    color: #306363;
+    border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(48, 99, 99, 0.05);
+}
+
+.logout-btn:active {
+    transform: scale(0.98);
+}
+
+.logout-icon {
+    font-size: 20px;
+}
+
+.version-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #707978;
+    margin-top: 24px;
+}
+
+/* ---------- Bottom Navigation ---------- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    background-color: #f8f9f9;
+    border-top: 1px solid #bfc8c8;
+    z-index: 50;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #586060;
+    padding: 4px 16px;
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+    min-height: 64px;
+    min-width: 64px;
+}
+
+.nav-link:active {
+    transform: scale(0.95);
+}
+
+.nav-link .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.nav-link.active {
+    color: #306363;
+    font-weight: 700;
+}
+
+.nav-link.active .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.nav-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin-top: 2px;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfc8c8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #707978;
+}

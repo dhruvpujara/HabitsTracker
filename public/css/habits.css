@@ -1,0 +1,475 @@
+/* ============================================
+   Serene Habit - Main Styles
+   Based on Essentialist Minimalism design system
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    background-color: #f8f9f9;
+    color: #191c1c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* ---------- Container ---------- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+/* ---------- Material Icons ---------- */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ---------- Top Navigation ---------- */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #f8f9f9;
+    z-index: 40;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+}
+
+.greeting {
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #191c1c;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: #404848;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* ---------- Main Content ---------- */
+.main-content {
+    padding-bottom: 128px;
+}
+
+/* ---------- Greeting Section ---------- */
+.greeting-section {
+    margin-top: 32px;
+    margin-bottom: 40px;
+}
+
+.greeting-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.page-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #191c1c;
+}
+
+@media (min-width: 768px) {
+    .page-title {
+        font-size: 32px;
+    }
+}
+
+.btn-primary {
+    background-color: #4a7c7c;
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+.btn-primary .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* ---------- Stats Section ---------- */
+.stats-section {
+    margin-bottom: 40px;
+}
+
+.stats-card {
+    background-color: #f3f4f4;
+    border: 1px solid #bfc8c8;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.stats-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #586060;
+}
+
+.stats-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #306363;
+    margin-top: 4px;
+}
+
+.progress-ring {
+    width: 48px;
+    height: 48px;
+}
+
+.progress-ring svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ring-bg {
+    stroke: #306363;
+    opacity: 0.2;
+}
+
+.ring-progress {
+    stroke: #306363;
+}
+
+.stats-description {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #404848;
+}
+
+/* ---------- Category Pills ---------- */
+.category-pills {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.pill {
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    background-color: #dde4e4;
+    color: #306363;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill.active {
+    background-color: #306363;
+    color: #ffffff;
+}
+
+.pill:hover:not(.active) {
+    background-color: #c1c8c8;
+}
+
+/* ---------- Habits List ---------- */
+.habits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.habit-card {
+    background-color: #ffffff;
+    border: 1px solid #bfc8c8;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.habit-card:active {
+    background-color: #e0e7e7;
+    transform: scale(0.98);
+}
+
+.habit-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.habit-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f4f3b;
+}
+
+.bg-tertiary-fixed {
+    background-color: #ffdbcd;
+}
+
+.bg-primary-fixed {
+    background-color: #b8ecec;
+    color: #306363;
+}
+
+.bg-secondary-container {
+    background-color: #dae1e1;
+    color: #586060;
+}
+
+.habit-icon-wrapper .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.habit-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #191c1c;
+}
+
+.habit-description {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #404848;
+}
+
+.habit-checkbox {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #707978;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.habit-checkbox.checked {
+    background-color: #306363;
+    border-color: #306363;
+}
+
+.habit-checkbox .check-icon {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+/* ---------- Quote Section ---------- */
+.quote-section {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.6;
+}
+
+.quote-image {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.quote-glow {
+    position: absolute;
+    inset: 0;
+    background-color: #b8ecec;
+    border-radius: 9999px;
+    filter: blur(64px);
+    opacity: 0.3;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.quote-leaf {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 10;
+}
+
+.quote-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #586060;
+    font-style: italic;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.05);
+    }
+}
+
+/* ---------- Bottom Navigation ---------- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    background-color: #f8f9f9;
+    border-top: 1px solid #bfc8c8;
+    z-index: 50;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #586060;
+    padding: 4px 24px;
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+    min-height: 48px;
+}
+
+.nav-link:active {
+    transform: scale(0.95);
+}
+
+.nav-link .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.nav-link.active {
+    color: #306363;
+    font-weight: 700;
+}
+
+.nav-link.active .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.nav-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin-top: 2px;
+}
+
+/* ---------- Scrollbar Styling ---------- */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfc8c8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #707978;
+}

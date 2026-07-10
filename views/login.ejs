@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Serene Habit</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/login.css" />
+</head>
+
+<body>
+    <!-- Atmospheric Background -->
+    <div class="bg-overlay"></div>
+
+    <!-- Login Container -->
+    <main class="login-container">
+        <div class="login-card">
+            <!-- Brand Icon -->
+            <div class="brand-icon">
+                <span class="material-symbols-outlined">spa</span>
+            </div>
+
+            <!-- Welcome Message -->
+            <div class="welcome-section">
+                <h1 class="welcome-title">Welcome Back</h1>
+                <p class="welcome-subtitle">Continue your journey to digital quietude.</p>
+            </div>
+
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" id="email" type="email" placeholder="name@example.com" required />
+                        <span class="input-icon material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <div class="password-header">
+                        <label class="form-label" for="password">Password</label>
+                        <a class="forgot-link" href="#">Forgot password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <input class="form-input" id="password" type="password" placeholder="••••••••" required />
+                        <button class="toggle-password" type="button" onclick="togglePassword()">
+                            <span class="material-symbols-outlined" id="visibilityIcon">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="remember-group">
+                    <input class="custom-checkbox" id="remember" type="checkbox" />
+                    <label class="remember-label" for="remember">Stay logged in for 30 days</label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-wrapper">
+                    <button class="btn-login" type="submit">
+                        <span>Login</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div class="signup-section">
+            <p class="signup-text">
+                Don't have an account?
+                <a class="signup-link" href="/register">Sign Up</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passInput = document.getElementById('password');
+            const icon = document.getElementById('visibilityIcon');
+            const isPass = passInput.type === 'password';
+            passInput.type = isPass ? 'text' : 'password';
+            icon.textContent = isPass ? 'visibility' : 'visibility_off';
+        }
+
+        // Form submission with feedback
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-login');
+            const originalContent = btn.innerHTML;
+
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+            btn.disabled = true;
+            btn.classList.add('loading');
+
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                alert('Authentication successful. Welcome to your Serene dashboard.');
+                // Redirect would happen here
+                // window.location.href = '/dashboard';
+            }, 1500);
+        });
+
+        // Input focus effects
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function () {
+                const group = this.closest('.form-group');
+                if (group) {
+                    const label = group.querySelector('.form-label');
+                    if (label) label.classList.add('focused');
+                }
+            });
+            input.addEventListener('blur', function () {
+                const group = this.closest('.form-group');
+                if (group) {
+                    const label = group.querySelector('.form-label');
+                    if (label) label.classList.remove('focused');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

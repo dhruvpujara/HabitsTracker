@@ -1,0 +1,654 @@
+/* ============================================
+   Serene Habit - Main Styles
+   Based on Essentialist Minimalism design system
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    background-color: #f8f9f9;
+    color: #191c1c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---------- Container ---------- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+/* ---------- Material Icons ---------- */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ---------- Top Navigation ---------- */
+.top-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #f8f9f9;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.back-btn {
+    padding: 8px;
+    margin-left: -8px;
+    background: none;
+    border: none;
+    color: #404848;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn:hover {
+    color: #306363;
+}
+
+.back-btn .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.page-headline {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #191c1c;
+}
+
+@media (min-width: 768px) {
+    .page-headline {
+        font-size: 32px;
+    }
+}
+
+/* ---------- Main Content ---------- */
+.main-content {
+    padding-top: 32px;
+    padding-bottom: 128px;
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* ---------- Form ---------- */
+.habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #404848;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ---------- Habit Type Cards ---------- */
+.type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.type-card {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #bfc8c8;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.type-card:hover {
+    background-color: #f3f4f4;
+}
+
+.type-card.active {
+    border: 2px solid #306363;
+    background-color: #ecfffe;
+}
+
+.type-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    background-color: #dde4e4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #306363;
+    transition: transform 0.2s ease;
+}
+
+.type-card:hover .type-icon {
+    transform: scale(1.1);
+}
+
+.type-icon .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.type-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #191c1c;
+}
+
+.type-description {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #404848;
+    text-align: center;
+}
+
+/* ---------- Input Fields ---------- */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px;
+    background-color: #ffffff;
+    border: 1px solid #bfc8c8;
+    border-radius: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #191c1c;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #306363;
+    box-shadow: 0 0 0 2px #306363;
+}
+
+.form-input::placeholder {
+    color: #bfc8c8;
+    font-weight: 400;
+}
+
+.input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #bfc8c8;
+    transition: color 0.2s ease;
+    pointer-events: none;
+}
+
+.input-wrapper:focus-within .input-icon {
+    color: #306363;
+}
+
+.input-icon .material-symbols-outlined {
+    font-size: 24px;
+}
+
+/* ---------- Frequency Buttons ---------- */
+.frequency-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.freq-btn {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    border: 1px solid #bfc8c8;
+    background-color: #ffffff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: #191c1c;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.freq-btn:hover {
+    background-color: #dde4e4;
+}
+
+.freq-btn.active {
+    background-color: #306363;
+    color: #ffffff;
+    border-color: #306363;
+}
+
+.freq-custom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.freq-custom .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* ========== ICON PICKER DROPDOWN ========== */
+.icon-picker-wrapper {
+    position: relative;
+    margin-top: 0.5rem;
+}
+
+.icon-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    border: 1px solid #bfc8c8;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-selector:hover {
+    border-color: #306363;
+    background: #f3f4f4;
+}
+
+.icon-selector:focus-within {
+    border-color: #306363;
+    box-shadow: 0 0 0 2px #306363;
+}
+
+.selected-icon-display {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.selected-icon-display .material-symbols-outlined {
+    font-size: 2rem;
+    color: #306363;
+}
+
+#selectedIconName {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #191c1c;
+}
+
+.dropdown-arrow {
+    font-size: 1.5rem;
+    color: #94a3b8;
+    transition: transform 0.3s ease;
+}
+
+.icon-dropdown.show .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Icon Dropdown */
+.icon-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #bfc8c8;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    max-height: 300px;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.icon-dropdown.show {
+    display: flex;
+}
+
+/* Search input */
+.icon-search {
+    padding: 0.75rem;
+    border-bottom: 1px solid #bfc8c8;
+    flex-shrink: 0;
+}
+
+.icon-search input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #bfc8c8;
+    border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.icon-search input:focus {
+    border-color: #306363;
+    box-shadow: 0 0 0 2px #306363;
+}
+
+/* Icon list - scrollable */
+.icon-list {
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    flex: 1;
+}
+
+.icon-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.icon-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.icon-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.icon-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Icon items */
+.icon-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.icon-item:hover {
+    background: #f3f4f4;
+}
+
+.icon-item .material-symbols-outlined {
+    font-size: 1.5rem;
+    color: #404848;
+}
+
+.icon-item .icon-name {
+    font-size: 0.85rem;
+    color: #404848;
+    font-weight: 500;
+}
+
+/* ========== COLOR SELECTION ========== */
+.color-grid {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.color-option {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.active {
+    border-color: #191c1c;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #191c1c;
+}
+
+/* ---------- Motivation Card ---------- */
+.motivation-card {
+    padding: 24px;
+    border-radius: 12px;
+    background-color: #e7e8e8;
+    border: 1px solid #bfc8c8;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.motivation-content {
+    flex: 1;
+    z-index: 10;
+}
+
+.motivation-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #191c1c;
+    margin-bottom: 4px;
+}
+
+.motivation-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #404848;
+}
+
+.motivation-image {
+    width: 128px;
+    height: 128px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.motivation-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- Submit Button ---------- */
+.submit-wrapper {
+    padding-top: 32px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    background-color: #306363;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #4a7c7c;
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+.btn-submit.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* ---------- Bottom Navigation ---------- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    background-color: #f8f9f9;
+    border-top: 1px solid #bfc8c8;
+    z-index: 50;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #586060;
+    padding: 4px 16px;
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+    min-height: 64px;
+    min-width: 64px;
+}
+
+.nav-link:active {
+    transform: scale(0.95);
+}
+
+.nav-link .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.nav-link.active {
+    color: #306363;
+    font-weight: 700;
+}
+
+.nav-link.active .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.nav-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin-top: 2px;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfc8c8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #707978;
+}
+
+/* ---------- Responsive Adjustments ---------- */
+@media (max-width: 640px) {
+    .type-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .motivation-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .motivation-image {
+        width: 96px;
+        height: 96px;
+    }
+
+    .freq-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+
+    .icon-item .icon-name {
+        font-size: 0.75rem;
+    }
+}

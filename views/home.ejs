@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serene Habit · Home</title>
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/home.css" />
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="container">
+            <h1 class="greeting">Hello User</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <section class="habits-section">
+            <% if (habits && habits.length> 0) { %>
+                <% habits.forEach(function(habit) { %>
+                    <a href="/habits/<%= habit._id %>" class="habit-link">
+                        <div class="habit-item">
+                            <span class="material-symbols-outlined habit-icon"
+                                style="color: <%= habit.iconColor || '#6366f1' %>">
+                                <%= habit.icon || 'check_circle' %>
+                            </span>
+                            <span class="habit-name">
+                                <%= habit.habitName %>
+                            </span>
+                            <input type="checkbox" class="habit-checkbox" data-habit-id="<%= habit._id %>" />
+                        </div>
+                    </a>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="empty-state">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 48px; color: #94a3b8;">add_circle</span>
+                                <p style="color: #94a3b8; margin-top: 1rem;">No habits yet. Start by adding one!</p>
+                                <a href="/addHabit" class="btn-add-habit">Add Your First Habit</a>
+                            </div>
+                            <% } %>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item active">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="/habits" class="nav-item">
+            <span class="material-symbols-outlined">checklist</span>
+            <span class="nav-label">Habits</span>
+        </a>
+        <a href="/profile" class="nav-item">
+            <span class="material-symbols-outlined">person</span>
+            <span class="nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // Toggle habit completion
+        function toggleHabit(checkbox) {
+            const habitId = checkbox.getAttribute('data-habit-id');
+            const isChecked = checkbox.checked;
+
+            // Send request to update habit status
+            fetch(`/habits/${habitId}/toggle`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ completed: isChecked })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Visual feedback
+                        const habitItem = checkbox.closest('.habit-item');
+                        if (isChecked) {
+                            habitItem.classList.add('completed');
+                        } else {
+                            habitItem.classList.remove('completed');
+                        }
+                    } else {
+                        // Revert checkbox if update failed
+                        checkbox.checked = !isChecked;
+                        alert('Failed to update habit status');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    checkbox.checked = !isChecked;
+                    alert('Failed to update habit status');
+                });
+        }
+    </script>
+</body>
+
+</html>

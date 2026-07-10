@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serene Habit · Dashboard</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/habits.css" />
+</head>
+
+<body>
+    <!-- ========== TOP NAV ========== -->
+    <header class="top-nav">
+        <div class="container nav-container">
+            <h1 class="greeting">Hello User</h1>
+            <div class="nav-actions">
+                <button class="icon-btn material-symbols-outlined">notifications</button>
+                <button class="icon-btn material-symbols-outlined">settings</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== MAIN ========== -->
+    <main class="container main-content">
+
+        <!-- Header / Greeting -->
+        <section class="greeting-section">
+            <div class="greeting-wrapper">
+                <h2 class="page-title">
+                    so what to add today ?
+                </h2>
+                <div>
+                    <button class="btn-primary" onclick="window.location.href='/addHabit'">
+                        <span class="material-symbols-outlined">add</span>
+                        Add Habit
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats / Bento -->
+        <section class="stats-section">
+            <div class="stats-card">
+                <div class="stats-header">
+                    <div>
+                        <p class="stats-label">Consistency</p>
+                        <h3 class="stats-value">84%</h3>
+                    </div>
+                    <div class="progress-ring">
+                        <svg viewBox="0 0 36 36">
+                            <path class="ring-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke-width="2"></path>
+                            <path class="ring-progress"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke-dasharray="84, 100" stroke-linecap="round" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                </div>
+                <p class="stats-description">You've completed 12 habits this week. Keep the momentum!</p>
+            </div>
+        </section>
+
+        <!-- Category pills -->
+        <div class="category-pills">
+            <span class="pill active">All</span>
+            <span class="pill">Mind</span>
+            <span class="pill">Health</span>
+            <span class="pill">Productivity</span>
+            <span class="pill">Social</span>
+        </div>
+
+        <!-- ========== HABITS LIST ========== -->
+        <section class="habits-list">
+            <!-- Habit Item 1 -->
+            <div class="habit-card">
+                <div class="habit-content">
+                    <div class="habit-icon-wrapper bg-tertiary-fixed">
+                        <span class="material-symbols-outlined">self_care</span>
+                    </div>
+                    <div>
+                        <h4 class="habit-name">Morning Meditation</h4>
+                        <p class="habit-description">10 mins • Daily</p>
+                    </div>
+                </div>
+                <div class="habit-checkbox" onclick="toggleHabit(this)">
+                </div>
+            </div>
+
+            <!-- Habit Item 2 -->
+            <div class="habit-card">
+                <div class="habit-content">
+                    <div class="habit-icon-wrapper bg-primary-fixed">
+                        <span class="material-symbols-outlined">water_drop</span>
+                    </div>
+                    <div>
+                        <h4 class="habit-name">Hydrate</h4>
+                        <p class="habit-description">2L • Daily</p>
+                    </div>
+                </div>
+                <div class="habit-checkbox checked" onclick="toggleHabit(this)">
+                    <span class="material-symbols-outlined check-icon">check</span>
+                </div>
+            </div>
+
+            <!-- Habit Item 3 -->
+            <div class="habit-card">
+                <div class="habit-content">
+                    <div class="habit-icon-wrapper bg-secondary-container">
+                        <span class="material-symbols-outlined">book</span>
+                    </div>
+                    <div>
+                        <h4 class="habit-name">Read 20 Pages</h4>
+                        <p class="habit-description">Non-fiction • Weekdays</p>
+                    </div>
+                </div>
+                <div class="habit-checkbox" onclick="toggleHabit(this)">
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote / illustration -->
+        <section class="quote-section">
+            <div class="quote-image">
+                <div class="quote-glow"></div>
+                <img class="quote-leaf"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMvbk35mbYDVnxrvd473L0nAaBGfP1rRSJNaPJgGCZxANc1i30HM3ElU25kLYdaTsLdJ_UN3sDjhF8R-awwXUNAGHuijJwuNGawBQLiYYmwNNYGxCV67mGEPcqzqWOsav4ZuNz1Iu1II_0GW77tRr0aRziddZOCDKE_eKak-nzQnXtG9mmiJn809BG-3ebcZlb-KRsx1Q59NR0Lvhs4Rrss9rOZrDnpoETf-8tHWVNZ1x5KqoBFZhjL_FO_HRj79RFOA2z0ya1HCY"
+                    alt="minimalist leaf illustration" />
+            </div>
+            <p class="quote-text">"Small steps lead to great distances."</p>
+        </section>
+    </main>
+
+    <!-- ========== BOTTOM NAV ========== -->
+    <nav class="bottom-nav">
+        <a class="nav-link" href="/">
+            <span class="material-symbols-outlined">home</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a class="nav-link active" href="/habits">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">checklist</span>
+            <span class="nav-label">Habits</span>
+        </a>
+        <a class="nav-link" href="/profile">
+            <span class="material-symbols-outlined">person</span>
+            <span class="nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Toggle script -->
+    <script>
+        function toggleHabit(el) {
+            const isChecked = el.classList.contains('checked');
+            if (isChecked) {
+                el.classList.remove('checked');
+                el.innerHTML = '';
+            } else {
+                el.classList.add('checked');
+                el.innerHTML = '<span class="material-symbols-outlined check-icon">check</span>';
+            }
+        }
+    </script>
+</body>
+
+</html>
