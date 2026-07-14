@@ -4,5 +4,6 @@ const listController = require('../controller/listController');
 
 
 routes.post('/addHabit', isAuthenticated, listController.addHabbit);
+routes.post('/habitsUpdate', isAuthenticated, listController.habitUpdate);
 
 module.exports = routes;

@@ -30,3 +30,38 @@ module.exports.addHabbit = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+module.exports.habitUpdate = async (req, res) => {
+    try {
+        const { habitId, completed } = req.body;
+        const userId = req.user.userId;
+
+        let today = new Date().toISOString().split('T')[0];
+
+        let habit = await Habbit.findById(habitId);
+
+        if (!habit) {
+            return res.status(404).json({ message: "Habit not found" });
+        }
+
+        if (completed) {
+            // prevent duplicate dates
+            if (!habit.completedDates.includes(today)) {
+                habit.completedDates.push(today);
+            }
+        } else {
+            // remove date cleanly
+            habit.completedDates = habit.completedDates.filter(
+                date => date !== today
+            );
+        }
+
+        await habit.save();
+
+        res.status(200).json({ message: "Habit updated", habit });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

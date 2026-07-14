@@ -10,6 +10,11 @@ const habbitSchema = new mongoose.Schema({
         required: true,
         enum: ['yes or no', 'measurable', 'monthly', 'weekly', 'daily']
     },
+    isCompletedToday: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     frequency: {
         type: String,
         required: true
@@ -27,7 +32,7 @@ const habbitSchema = new mongoose.Schema({
         default: '#6366f1' // Default color
     },
     completedDates: {
-        type: [Date],
+        type: [String],
         default: []
     }
 });

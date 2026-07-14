@@ -90,7 +90,7 @@ body {
 .habit-item {
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: space-between;
     padding: 16px 20px;
     background-color: #ffffff;
     border: 1px solid #bfc8c8;
@@ -107,6 +107,14 @@ body {
     background-color: #e0e7e7;
 }
 
+/* Left side: icon + name container */
+.habit-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
 .habit-icon {
     font-size: 24px;
     color: #306363;
@@ -117,6 +125,7 @@ body {
     justify-content: center;
     background-color: #b8ecec;
     border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .habit-name {
@@ -126,6 +135,50 @@ body {
     line-height: 1.2;
     letter-spacing: 0.01em;
     color: #191c1c;
+}
+
+/* ---------- Checkbox Styling ---------- */
+.habit-checkbox {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 16px;
+    accent-color: #306363;
+    border: 2px solid #bfc8c8;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.habit-checkbox:checked {
+    background-color: #306363;
+    border-color: #306363;
+}
+
+.habit-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.habit-checkbox:hover {
+    border-color: #306363;
+    box-shadow: 0 0 0 4px rgba(48, 99, 99, 0.1);
+}
+
+.habit-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(48, 99, 99, 0.2);
+    border-color: #306363;
 }
 
 /* ---------- Bottom Navigation ---------- */

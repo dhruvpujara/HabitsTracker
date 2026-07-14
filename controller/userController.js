@@ -2,18 +2,30 @@ const User = require('../model/userModel');
 const Habbit = require('../model/habbit');
 
 
-module.exports.getHabits = (req, res) => {
+module.exports.getHabits = async (req, res) => {
 
     let consistency = 0;
     let totalHabits = 0;
     let completedHabits = 0;
-    const userId = req.user.userId;
+    const date = new Date().toISOString().split('T')[0];
+    const user = await User.findById(req.user.userId);
+    const habits = user.habbits;
 
-    for (habit of req.user.habbits) {
-        totalHabits++;
-        if (habit.completedHabits.includes(new Date().toDateString())) {
-            completedHabits++;
+    const checkStatusAndUpdate = async (habit) => {
+        const habitFound = await Habbit.findById(habit);
+
+        if (habitFound.completedDates.includes(date)) {
+            habitFound.isCompletedToday = true;
+            await habitFound.save();
+        } else {
+            habitFound.isCompletedToday = false;
+            await habitFound.save();
         }
+    }
+
+    for (const habit of habits) {
+        totalHabits++;
+        checkStatusAndUpdate(habit);
     }
 
     res.render('habits');

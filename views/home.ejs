@@ -30,14 +30,20 @@
                 <% habits.forEach(function(habit) { %>
                     <a href="/habits/<%= habit._id %>" class="habit-link">
                         <div class="habit-item">
-                            <span class="material-symbols-outlined habit-icon"
-                                style="color: <%= habit.iconColor || '#6366f1' %>">
-                                <%= habit.icon || 'check_circle' %>
-                            </span>
-                            <span class="habit-name">
-                                <%= habit.habitName %>
-                            </span>
-                            <input type="checkbox" class="habit-checkbox" data-habit-id="<%= habit._id %>" />
+                            <!-- Left side: icon + name -->
+                            <div class="habit-left">
+                                <span class="material-symbols-outlined habit-icon"
+                                    style="color: <%= habit.iconColor || '#6366f1' %>">
+                                    <%= habit.icon || 'check_circle' %>
+                                </span>
+                                <span class="habit-name">
+                                    <%= habit.habitName %>
+                                </span>
+                            </div>
+                            <!-- Right side: checkbox fixed to the right -->
+                            <input type="checkbox" class="habit-checkbox" data-habit-id="<%= habit._id %>"
+                                <%=habit.isCompletedToday ? 'checked' : '' %>
+                            onclick="updateHabit('<%= habit._id %>', this.checked)" />
                         </div>
                     </a>
                     <% }); %>
@@ -69,41 +75,33 @@
     </nav>
 
     <script>
-        // Toggle habit completion
-        function toggleHabit(checkbox) {
-            const habitId = checkbox.getAttribute('data-habit-id');
-            const isChecked = checkbox.checked;
-
-            // Send request to update habit status
-            fetch(`/habits/${habitId}/toggle`, {
-                method: 'PUT',
+        async function updateHabit(habitId, isChecked) {
+            await fetch(`/habitsUpdate`, {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ completed: isChecked })
+                body: JSON.stringify({ completed: isChecked, habitId: habitId })
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Visual feedback
-                        const habitItem = checkbox.closest('.habit-item');
-                        if (isChecked) {
-                            habitItem.classList.add('completed');
-                        } else {
-                            habitItem.classList.remove('completed');
-                        }
-                    } else {
-                        // Revert checkbox if update failed
-                        checkbox.checked = !isChecked;
-                        alert('Failed to update habit status');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    checkbox.checked = !isChecked;
-                    alert('Failed to update habit status');
-                });
+            console.log('Habit ID:', habitId, 'Checked:', isChecked);
         }
+
+        // ========== SOCKET.IO SETUP ==========
+        // Uncomment this when you're ready to implement socket.io
+        /*
+        const socket = io();
+
+        // Listen for habit update confirmations from server
+        socket.on('habit-updated', function(data) {
+            if (data.success) {
+                const checkbox = document.querySelector(`.habit-checkbox[data-habit-id="${data.habitId}"]`);
+                if (checkbox) {
+                    // Just log the update - no visual changes
+                    console.log('Habit updated:', data.habitId, data.completed);
+                }
+            }
+        });
+        */
     </script>
 </body>
 
