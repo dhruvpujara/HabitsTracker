@@ -51,7 +51,9 @@
                 <div class="stats-header">
                     <div>
                         <p class="stats-label">Consistency</p>
-                        <h3 class="stats-value">84%</h3>
+                        <h3 class="stats-value">
+                            <%= percentage %>%
+                        </h3>
                     </div>
                     <div class="progress-ring">
                         <svg viewBox="0 0 36 36">
@@ -60,11 +62,18 @@
                                 fill="none" stroke-width="2"></path>
                             <path class="ring-progress"
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                fill="none" stroke-dasharray="84, 100" stroke-linecap="round" stroke-width="2"></path>
+                                fill="none" stroke-dasharray="<%= percentage %>, 100" stroke-linecap="round"
+                                stroke-width="2"></path>
                         </svg>
                     </div>
                 </div>
-                <p class="stats-description">You've completed 12 habits this week. Keep the momentum!</p>
+                <p class="stats-description">
+                    <% if (consistencyMessage) { %>
+                        <%= consistencyMessage %>
+                            <% } else { %>
+                                You've completed 12 habits this week. Keep the momentum!
+                                <% } %>
+                </p>
             </div>
         </section>
 
@@ -76,55 +85,6 @@
             <span class="pill">Productivity</span>
             <span class="pill">Social</span>
         </div>
-
-        <!-- ========== HABITS LIST ========== -->
-        <section class="habits-list">
-            <!-- Habit Item 1 -->
-            <div class="habit-card">
-                <div class="habit-content">
-                    <div class="habit-icon-wrapper bg-tertiary-fixed">
-                        <span class="material-symbols-outlined">self_care</span>
-                    </div>
-                    <div>
-                        <h4 class="habit-name">Morning Meditation</h4>
-                        <p class="habit-description">10 mins • Daily</p>
-                    </div>
-                </div>
-                <div class="habit-checkbox" onclick="toggleHabit(this)">
-                </div>
-            </div>
-
-            <!-- Habit Item 2 -->
-            <div class="habit-card">
-                <div class="habit-content">
-                    <div class="habit-icon-wrapper bg-primary-fixed">
-                        <span class="material-symbols-outlined">water_drop</span>
-                    </div>
-                    <div>
-                        <h4 class="habit-name">Hydrate</h4>
-                        <p class="habit-description">2L • Daily</p>
-                    </div>
-                </div>
-                <div class="habit-checkbox checked" onclick="toggleHabit(this)">
-                    <span class="material-symbols-outlined check-icon">check</span>
-                </div>
-            </div>
-
-            <!-- Habit Item 3 -->
-            <div class="habit-card">
-                <div class="habit-content">
-                    <div class="habit-icon-wrapper bg-secondary-container">
-                        <span class="material-symbols-outlined">book</span>
-                    </div>
-                    <div>
-                        <h4 class="habit-name">Read 20 Pages</h4>
-                        <p class="habit-description">Non-fiction • Weekdays</p>
-                    </div>
-                </div>
-                <div class="habit-checkbox" onclick="toggleHabit(this)">
-                </div>
-            </div>
-        </section>
 
         <!-- Quote / illustration -->
         <section class="quote-section">
@@ -153,20 +113,6 @@
             <span class="nav-label">Profile</span>
         </a>
     </nav>
-
-    <!-- Toggle script -->
-    <script>
-        function toggleHabit(el) {
-            const isChecked = el.classList.contains('checked');
-            if (isChecked) {
-                el.classList.remove('checked');
-                el.innerHTML = '';
-            } else {
-                el.classList.add('checked');
-                el.innerHTML = '<span class="material-symbols-outlined check-icon">check</span>';
-            }
-        }
-    </script>
 </body>
 
 </html>

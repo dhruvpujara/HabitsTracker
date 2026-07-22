@@ -34,12 +34,13 @@
             </div>
 
             <!-- Login Form -->
-            <form class="login-form" id="loginForm">
+            <form class="login-form" id="loginForm" action="/login" method="POST">
                 <!-- Email Input -->
                 <div class="form-group">
                     <label class="form-label" for="email">Email Address</label>
                     <div class="input-wrapper">
-                        <input class="form-input" id="email" type="email" placeholder="name@example.com" required />
+                        <input class="form-input" id="email" name="email" type="email" placeholder="name@example.com"
+                            required />
                         <span class="input-icon material-symbols-outlined">mail</span>
                     </div>
                 </div>
@@ -51,7 +52,8 @@
                         <a class="forgot-link" href="#">Forgot password?</a>
                     </div>
                     <div class="input-wrapper">
-                        <input class="form-input" id="password" type="password" placeholder="••••••••" required />
+                        <input class="form-input" id="password" name="password" type="password" placeholder="••••••••"
+                            required />
                         <button class="toggle-password" type="button" onclick="togglePassword()">
                             <span class="material-symbols-outlined" id="visibilityIcon">visibility_off</span>
                         </button>
@@ -60,7 +62,7 @@
 
                 <!-- Remember Me -->
                 <div class="remember-group">
-                    <input class="custom-checkbox" id="remember" type="checkbox" />
+                    <input class="custom-checkbox" id="remember" name="remember" type="checkbox" />
                     <label class="remember-label" for="remember">Stay logged in for 30 days</label>
                 </div>
 
@@ -93,44 +95,6 @@
             passInput.type = isPass ? 'text' : 'password';
             icon.textContent = isPass ? 'visibility' : 'visibility_off';
         }
-
-        // Form submission with feedback
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const btn = this.querySelector('.btn-login');
-            const originalContent = btn.innerHTML;
-
-            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
-            btn.disabled = true;
-            btn.classList.add('loading');
-
-            setTimeout(() => {
-                btn.innerHTML = originalContent;
-                btn.disabled = false;
-                btn.classList.remove('loading');
-                alert('Authentication successful. Welcome to your Serene dashboard.');
-                // Redirect would happen here
-                // window.location.href = '/dashboard';
-            }, 1500);
-        });
-
-        // Input focus effects
-        document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('focus', function () {
-                const group = this.closest('.form-group');
-                if (group) {
-                    const label = group.querySelector('.form-label');
-                    if (label) label.classList.add('focused');
-                }
-            });
-            input.addEventListener('blur', function () {
-                const group = this.closest('.form-group');
-                if (group) {
-                    const label = group.querySelector('.form-label');
-                    if (label) label.classList.remove('focused');
-                }
-            });
-        });
     </script>
 </body>
 

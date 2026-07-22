@@ -5,125 +5,147 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile | Serene Habit</title>
-    <!-- Fonts & Icons -->
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Material Icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="css/profile.css" />
 </head>
 
 <body>
-    <!-- ========== TOP NAV ========== -->
-    <header class="top-nav">
-        <div class="container nav-container">
-            <h1 class="page-headline">Profile</h1>
-            <button class="settings-btn">
-                <span class="material-symbols-outlined">settings</span>
-            </button>
+    <!-- ========== TOP APP BAR ========== -->
+    <header class="top-app-bar" id="topAppBar">
+        <div class="container">
+            <h1 class="app-bar-title">Profile</h1>
+            <div class="app-bar-actions">
+                <button aria-label="Settings">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- ========== MAIN CONTENT ========== -->
-    <main class="container main-content">
+    <main class="main-content container">
+
         <!-- Profile Header -->
-        <section class="profile-header">
-            <div class="profile-greeting">
-                <h2 class="greeting-title">Hello, <%= typeof user !=='undefined' && user ? user.name || 'User' : 'User'
-                        %>!</h2>
-                <p class="greeting-subtitle">Keep up the great work on your habits today.</p>
+        <section class="profile-header fade-in-up">
+            <div class="profile-avatar">
+                <span class="material-symbols-outlined">account_circle</span>
             </div>
-            <p class="member-since">
-                Member since
-                <% let memberDate='January 2024' ; if (typeof user !=='undefined' && user && user.createdAt) { try {
-                    memberDate=new Date(user.createdAt).toLocaleString('default', { month: 'long' , year: 'numeric' });
-                    } catch(e) { memberDate='January 2024' ; } } %>
-                    <%= memberDate %>
+            <h2 class="profile-name">Hello, Jane!</h2>
+            <p class="profile-subtitle">
+                Keep up the great work on your habits today.
+            </p>
+            <p class="profile-member-since">
+                Member since January 2024
             </p>
         </section>
 
-        <!-- Stats Bento Grid -->
-        <section class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="material-symbols-outlined stat-icon">local_fire_department</span>
-                    <p class="stat-label">Current Streak</p>
-                    <p class="stat-value">
-                        <%= typeof streak !=='undefined' && streak ? streak : 0 %> Days
-                    </p>
+        <!-- Friends & Competition -->
+        <section class="friends-section">
+            <div class="section-header">
+                <h3 class="section-title">Friends &amp; Competition</h3>
+                <button class="section-action">
+                    <span class="material-symbols-outlined">add</span>
+                    Add Friend
+                </button>
+            </div>
+            <div class="card">
+                <div class="friend-item">
+                    <div class="friend-item-left">
+                        <span class="material-symbols-outlined">person</span>
+                        <span class="friend-name">Jordan</span>
+                    </div>
+                    <span class="friend-score">92%</span>
                 </div>
-                <div class="stat-card">
-                    <span class="material-symbols-outlined stat-icon">task_alt</span>
-                    <p class="stat-label">Total Habits</p>
-                    <p class="stat-value">
-                        <%= typeof totalHabits !=='undefined' && totalHabits ? totalHabits : 0 %>
-                    </p>
+                <div class="hairline-divider"></div>
+                <div class="friend-item">
+                    <div class="friend-item-left">
+                        <span class="material-symbols-outlined">person</span>
+                        <span class="friend-name">Alex</span>
+                    </div>
+                    <span class="friend-score">88%</span>
                 </div>
-                <div class="stat-card">
-                    <span class="material-symbols-outlined stat-icon">trending_up</span>
-                    <p class="stat-label">Completion</p>
-                    <p class="stat-value">
-                        <%= typeof completionRate !=='undefined' && completionRate ? completionRate : 0 %>%
-                    </p>
+                <div class="hairline-divider"></div>
+                <div class="friend-item">
+                    <div class="friend-item-left">
+                        <span class="material-symbols-outlined">person</span>
+                        <span class="friend-name">Sam</span>
+                    </div>
+                    <span class="friend-score">76%</span>
                 </div>
             </div>
         </section>
 
-        <!-- Account Settings List -->
-        <section class="settings-section">
-            <h3 class="settings-title">Account Preferences</h3>
-            <div class="settings-list">
-                <button class="settings-item">
-                    <div class="settings-item-left">
-                        <span class="material-symbols-outlined settings-item-icon">notifications</span>
-                        <span class="settings-item-text">Reminders</span>
+        <!-- Account Preferences -->
+        <section class="preferences-section">
+            <h3 class="section-title" style="padding: 0 8px; margin-bottom: 12px;">
+                Account Preferences
+            </h3>
+            <div class="card">
+                <button class="preference-item">
+                    <div class="preference-item-left">
+                        <span class="material-symbols-outlined">verified_user</span>
+                        <span>Privacy &amp; Security</span>
                     </div>
-                    <span class="material-symbols-outlined settings-item-arrow">chevron_right</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
                 </button>
-                <div class="settings-divider"></div>
-                <button class="settings-item">
-                    <div class="settings-item-left">
-                        <span class="material-symbols-outlined settings-item-icon">verified_user</span>
-                        <span class="settings-item-text">Privacy & Security</span>
+                <div class="hairline-divider"></div>
+                <button class="preference-item">
+                    <div class="preference-item-left">
+                        <span class="material-symbols-outlined">help</span>
+                        <span>Support Center</span>
                     </div>
-                    <span class="material-symbols-outlined settings-item-arrow">chevron_right</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
                 </button>
-                <div class="settings-divider"></div>
-                <button class="settings-item">
-                    <div class="settings-item-left">
-                        <span class="material-symbols-outlined settings-item-icon">help</span>
-                        <span class="settings-item-text">Support Center</span>
+                <div class="hairline-divider"></div>
+                <button class="preference-item">
+                    <div class="preference-item-left">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span>Notifications</span>
                     </div>
-                    <span class="material-symbols-outlined settings-item-arrow">chevron_right</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+                <div class="hairline-divider"></div>
+                <button class="preference-item">
+                    <div class="preference-item-left">
+                        <span class="material-symbols-outlined">palette</span>
+                        <span>Theme &amp; Appearance</span>
+                    </div>
+                    <span class="material-symbols-outlined">chevron_right</span>
                 </button>
             </div>
         </section>
 
-        <!-- Logout Action -->
+        <!-- Logout -->
         <section class="logout-section">
-            <form action="/logout" method="POST">
-                <button class="logout-btn" type="submit">
-                    <span class="material-symbols-outlined logout-icon">logout</span>
-                    Logout
-                </button>
-            </form>
+            <button class="btn-logout">
+                <span class="material-symbols-outlined">logout</span>
+                Logout
+            </button>
             <p class="version-text">Version 2.4.1 (Stable)</p>
         </section>
     </main>
 
-    <!-- ========== BOTTOM NAV ========== -->
+    <!-- ========== BOTTOM NAVIGATION ========== -->
     <nav class="bottom-nav">
         <a class="nav-link" href="/">
             <span class="material-symbols-outlined">home</span>
             <span class="nav-label">Home</span>
         </a>
-        <a class="nav-link" href="/habits">
+        <a class="nav-link" href="habits">
             <span class="material-symbols-outlined">checklist</span>
             <span class="nav-label">Habits</span>
         </a>
-        <a class="nav-link active" href="/profile">
+        <a class="nav-link active" href="#">
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
             <span class="nav-label">Profile</span>
         </a>
@@ -131,13 +153,45 @@
 
     <!-- ========== SCRIPTS ========== -->
     <script>
-        // Micro-interaction for hover effects on stat cards
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
+        // Top App Bar scroll shadow
+        const topAppBar = document.getElementById('topAppBar');
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 0) {
+                topAppBar.classList.add('scrolled');
+            } else {
+                topAppBar.classList.remove('scrolled');
+            }
+        });
+
+        // Friend item hover micro-interaction
+        document.querySelectorAll('.friend-item').forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-2px)';
+                this.style.transition = 'transform 0.2s ease';
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0px)';
+            item.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Logout handler
+        document.querySelector('.btn-logout').addEventListener('click', function () {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logging out...');
+                // window.location.href = '/logout';
+            }
+        });
+
+        // Section action button
+        document.querySelector('.section-action').addEventListener('click', function () {
+            alert('Add Friend feature coming soon!');
+        });
+
+        // Preference items
+        document.querySelectorAll('.preference-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const text = this.querySelector('.preference-item-left span:last-child').textContent;
+                alert(`Navigating to ${text}...`);
             });
         });
     </script>

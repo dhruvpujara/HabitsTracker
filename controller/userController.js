@@ -10,12 +10,15 @@ module.exports.getHabits = async (req, res) => {
     const date = new Date().toISOString().split('T')[0];
     const user = await User.findById(req.user.userId);
     const habits = user.habbits;
+    let consistencyMessage = null;
 
+    // check daily status and update 
     const checkStatusAndUpdate = async (habit) => {
         const habitFound = await Habbit.findById(habit);
 
         if (habitFound.completedDates.includes(date)) {
             habitFound.isCompletedToday = true;
+            completedHabits++;
             await habitFound.save();
         } else {
             habitFound.isCompletedToday = false;
@@ -25,10 +28,41 @@ module.exports.getHabits = async (req, res) => {
 
     for (const habit of habits) {
         totalHabits++;
-        checkStatusAndUpdate(habit);
+        await checkStatusAndUpdate(habit);
     }
 
-    res.render('habits');
+    let percentage = ((completedHabits / totalHabits) * 100)
+
+    // consistencyMessage 
+    if (totalHabits == 0) {
+        consistencyMessage = "You haven't created any habits yet. Start your journey today! 🌱";
+        percentage = 0;
+    } else if (totalHabits > 0) {
+
+        if (completedHabits == 0) {
+            consistencyMessage = "0 habits completed today. Start with one! 💪"
+        } else {
+            if (percentage == 0) {
+                consistencyMessage = "0% consistency. Start your streak today! 🌟";
+            } else if (percentage >= 1 && percentage <= 19) {
+                consistencyMessage = "Every day is a fresh start. Begin again today! 🌅";
+            } else if (percentage >= 20 && percentage <= 39) {
+                consistencyMessage = "Small steps add up. Consistency is key! 🔑";
+            } else if (percentage >= 40 && percentage <= 59) {
+                consistencyMessage = "Steady progress. You're building momentum! 🌱";
+            } else if (percentage >= 60 && percentage <= 79) {
+                consistencyMessage = "Good progress! Keep the streak alive! 💪";
+            } else if (percentage >= 80 && percentage <= 100) {
+                consistencyMessage = "Excellent consistency! You're crushing your goals! 🏆";
+            }
+        }
+
+    }
+
+    res.render('habits', {
+        consistencyMessage: consistencyMessage,
+        percentage: percentage
+    });
 };
 
 module.exports.getHome = async (req, res) => {
