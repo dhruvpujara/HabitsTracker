@@ -18,7 +18,7 @@ module.exports.logoutUser = (req, res) => {
 
 module.exports.registerUser = async (req, res) => {
     try {
-        const { fullName, email, password } = req.body;
+        const { username, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -30,6 +30,7 @@ module.exports.registerUser = async (req, res) => {
 
         // Create a new user
         const user = await User.create({
+            username,
             email,
             password: hashedPassword
         });
@@ -80,5 +81,21 @@ module.exports.loginUser = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
         console.error('Error logging in user:', error);
+    }
+}
+
+
+module.exports.sendFriendRequest = async (req, res) => {
+    try {
+
+        const { userId } = req.body
+
+        const user = await User.findById(userId);
+        const ourId = req.user.userId
+        user.friendRequest.push(ourId.toString());
+        await user.save();
+
+    } catch (error) {
+        console.log(error);
     }
 }

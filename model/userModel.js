@@ -16,6 +16,12 @@ const userSchema = new mongoose.Schema({
     habbits: [{
         type: String,
         ref: 'Habbit'
+    }],
+    friendRequest: [{
+        type: mongoose.Schema.Types.ObjectId
+    }],
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId
     }]
 });
 
