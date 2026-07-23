@@ -18,7 +18,7 @@ module.exports.logoutUser = (req, res) => {
 
 module.exports.registerUser = async (req, res) => {
     try {
-        const { name, email } = req.body;
+        const { username, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -26,10 +26,14 @@ module.exports.registerUser = async (req, res) => {
             return res.status(400).json({ error: 'User already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
-        const user = await User.create({ name, email, password: hashedPassword });
+        await User.create({
+            username,
+            email,
+            password: hashedPassword
+        });
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '15d' });
 
         user.save().then(() => {

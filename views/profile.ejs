@@ -127,10 +127,10 @@
 
         <!-- Logout -->
         <section class="logout-section">
-            <button class="btn-logout">
+            <a href="/logout" class="btn-logout">
                 <span class="material-symbols-outlined">logout</span>
                 Logout
-            </button>
+            </a>
             <p class="version-text">Version 2.4.1 (Stable)</p>
         </section>
     </main>
@@ -174,13 +174,7 @@
             });
         });
 
-        // Logout handler
-        document.querySelector('.btn-logout').addEventListener('click', function () {
-            if (confirm('Are you sure you want to logout?')) {
-                alert('Logging out...');
-                // window.location.href = '/logout';
-            }
-        });
+
 
         // Section action button
         document.querySelector('.section-action').addEventListener('click', function () {
