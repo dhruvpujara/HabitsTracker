@@ -59,6 +59,9 @@ module.exports.getHabits = async (req, res) => {
 
     }
 
+    user.todaysPercentage = percentage
+    await user.save();
+
     res.render('habits', {
         consistencyMessage: consistencyMessage,
         percentage: percentage
@@ -92,7 +95,16 @@ module.exports.getAddHabit = (req, res) => {
 
 
 module.exports.getProfile = async (req, res) => {
-    res.render('profile', { user: req.user });
-    // Continue with profile logic
+
+    const user = await User.findById(req.user.userId);
+
+    if (user.friends.length > 0) {
+        console.log("not null");
+    } else {
+        console.log("null")
+    }
+
+    res.render('profile', { user: user });
+
 };
 

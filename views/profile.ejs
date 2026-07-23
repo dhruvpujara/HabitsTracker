@@ -16,7 +16,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/profile.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
 </head>
 
 <body>
@@ -25,7 +25,14 @@
         <div class="container">
             <h1 class="app-bar-title">Profile</h1>
             <div class="app-bar-actions">
-                <button aria-label="Settings">
+                <button class="icon-btn" id="requestsBtn" aria-label="Friend Requests">
+                    <span class="material-symbols-outlined">group_add</span>
+                    <span class="badge" id="requestsBadge"
+                        style="display: <%= (user.friendRequests && user.friendRequests.length > 0) ? 'flex' : 'none' %>;">
+                        <%= (user.friendRequests && user.friendRequests.length> 0) ? user.friendRequests.length : 0 %>
+                    </span>
+                </button>
+                <button class="icon-btn" aria-label="Settings">
                     <span class="material-symbols-outlined">settings</span>
                 </button>
             </div>
@@ -40,12 +47,14 @@
             <div class="profile-avatar">
                 <span class="material-symbols-outlined">account_circle</span>
             </div>
-            <h2 class="profile-name">Hello, Jane!</h2>
+            <h2 class="profile-name">Hello, <span id="usernameDisplay">
+                    <%= user.username %>
+                </span>!</h2>
             <p class="profile-subtitle">
                 Keep up the great work on your habits today.
             </p>
             <p class="profile-member-since">
-                Member since January 2024
+                Member since <%= user.memberSince %>
             </p>
         </section>
 
@@ -53,34 +62,20 @@
         <section class="friends-section">
             <div class="section-header">
                 <h3 class="section-title">Friends &amp; Competition</h3>
-                <button class="section-action">
+                <button class="section-action" id="addFriendBtn">
                     <span class="material-symbols-outlined">add</span>
                     Add Friend
                 </button>
             </div>
             <div class="card">
-                <div class="friend-item">
+                <div class="friend-item" id="competeItem" style="cursor: pointer;">
                     <div class="friend-item-left">
-                        <span class="material-symbols-outlined">person</span>
-                        <span class="friend-name">Jordan</span>
+                        <span class="material-symbols-outlined">emoji_events</span>
+                        <span class="friend-name" style="color: #306363; font-weight: 500;">
+                            No friends yet? Start competing!
+                        </span>
                     </div>
-                    <span class="friend-score">92%</span>
-                </div>
-                <div class="hairline-divider"></div>
-                <div class="friend-item">
-                    <div class="friend-item-left">
-                        <span class="material-symbols-outlined">person</span>
-                        <span class="friend-name">Alex</span>
-                    </div>
-                    <span class="friend-score">88%</span>
-                </div>
-                <div class="hairline-divider"></div>
-                <div class="friend-item">
-                    <div class="friend-item-left">
-                        <span class="material-symbols-outlined">person</span>
-                        <span class="friend-name">Sam</span>
-                    </div>
-                    <span class="friend-score">76%</span>
+                    <span class="material-symbols-outlined" style="color: #586060;">arrow_forward</span>
                 </div>
             </div>
         </section>
@@ -91,7 +86,7 @@
                 Account Preferences
             </h3>
             <div class="card">
-                <button class="preference-item">
+                <button class="preference-item" data-page="privacy">
                     <div class="preference-item-left">
                         <span class="material-symbols-outlined">verified_user</span>
                         <span>Privacy &amp; Security</span>
@@ -99,7 +94,7 @@
                     <span class="material-symbols-outlined">chevron_right</span>
                 </button>
                 <div class="hairline-divider"></div>
-                <button class="preference-item">
+                <button class="preference-item" data-page="support">
                     <div class="preference-item-left">
                         <span class="material-symbols-outlined">help</span>
                         <span>Support Center</span>
@@ -107,7 +102,7 @@
                     <span class="material-symbols-outlined">chevron_right</span>
                 </button>
                 <div class="hairline-divider"></div>
-                <button class="preference-item">
+                <button class="preference-item" data-page="notifications">
                     <div class="preference-item-left">
                         <span class="material-symbols-outlined">notifications</span>
                         <span>Notifications</span>
@@ -115,7 +110,7 @@
                     <span class="material-symbols-outlined">chevron_right</span>
                 </button>
                 <div class="hairline-divider"></div>
-                <button class="preference-item">
+                <button class="preference-item" data-page="theme">
                     <div class="preference-item-left">
                         <span class="material-symbols-outlined">palette</span>
                         <span>Theme &amp; Appearance</span>
@@ -126,7 +121,7 @@
         </section>
 
         <!-- Logout -->
-        <section class="logout-section">
+        <section class="logout-section" style="margin-bottom: 32px;">
             <a href="/logout" class="btn-logout">
                 <span class="material-symbols-outlined">logout</span>
                 Logout
@@ -141,7 +136,7 @@
             <span class="material-symbols-outlined">home</span>
             <span class="nav-label">Home</span>
         </a>
-        <a class="nav-link" href="habits">
+        <a class="nav-link" href="/habits">
             <span class="material-symbols-outlined">checklist</span>
             <span class="nav-label">Habits</span>
         </a>
@@ -151,42 +146,313 @@
         </a>
     </nav>
 
+    <!-- ===== ADD FRIEND MODAL ===== -->
+    <div class="modal-overlay" id="addFriendModal">
+        <div class="modal">
+            <h3 class="modal-title">Add Friend</h3>
+            <p class="modal-subtitle">Enter your friend's ID to send a request</p>
+            <input type="text" class="modal-input" id="friendIdInput" placeholder="Enter friend's ID" />
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelFriendBtn">Cancel</button>
+                <button class="modal-btn modal-btn-send" id="sendFriendBtn">Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FRIEND REQUESTS MODAL ===== -->
+    <div class="modal-overlay" id="requestsModal">
+        <div class="modal">
+            <h3 class="modal-title">Friend Requests</h3>
+            <p class="modal-subtitle">People who want to connect with you</p>
+            <div class="requests-list" id="requestsList">
+                <!-- Dynamic content rendered by JS -->
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="modal-btn modal-btn-cancel" id="closeRequestsBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== SCRIPTS ========== -->
     <script>
-        // Top App Bar scroll shadow
-        const topAppBar = document.getElementById('topAppBar');
-        window.addEventListener('scroll', function () {
-            if (window.scrollY > 0) {
-                topAppBar.classList.add('scrolled');
-            } else {
-                topAppBar.classList.remove('scrolled');
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ===== USER DATA FROM SERVER =====
+            const user = {
+                username: "<%= user.username %>",
+            };
+
+            // ===== SET USERNAME =====
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            if (usernameDisplay && user && user.username) {
+                usernameDisplay.textContent = user.username;
             }
-        });
 
-        // Friend item hover micro-interaction
-        document.querySelectorAll('.friend-item').forEach(item => {
-            item.addEventListener('mouseenter', function () {
-                this.style.transform = 'translateY(-2px)';
-                this.style.transition = 'transform 0.2s ease';
+            // ===== UPDATE REQUESTS BADGE =====
+            function updateBadge() {
+                const badge = document.getElementById('requestsBadge');
+                if (!badge) return;
+
+                const count = user.friendRequests ? user.friendRequests.length : 0;
+                if (count > 0) {
+                    badge.textContent = count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+            updateBadge();
+
+            // ===== TOP APP BAR SCROLL SHADOW =====
+            const topAppBar = document.getElementById('topAppBar');
+            if (topAppBar) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 0) {
+                        topAppBar.classList.add('scrolled');
+                    } else {
+                        topAppBar.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // ===== FRIEND ITEM MICRO-INTERACTION =====
+            document.querySelectorAll('.friend-item').forEach(item => {
+                item.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                item.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
             });
-            item.addEventListener('mouseleave', function () {
-                this.style.transform = 'translateY(0)';
+
+            // ===== ADD FRIEND MODAL =====
+            const addFriendModal = document.getElementById('addFriendModal');
+            const friendIdInput = document.getElementById('friendIdInput');
+            const sendFriendBtn = document.getElementById('sendFriendBtn');
+            const cancelFriendBtn = document.getElementById('cancelFriendBtn');
+            const addFriendBtn = document.getElementById('addFriendBtn');
+
+            function openAddFriendModal() {
+                if (!addFriendModal) return;
+                addFriendModal.classList.add('active');
+                if (friendIdInput) {
+                    friendIdInput.value = '';
+                    setTimeout(() => {
+                        friendIdInput.focus();
+                    }, 100);
+                }
+                document.body.classList.add('modal-open');
+            }
+
+            function closeAddFriendModal() {
+                if (!addFriendModal) return;
+                addFriendModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+
+            // Add Friend button click
+            if (addFriendBtn) {
+                addFriendBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openAddFriendModal();
+                });
+            }
+
+            // Cancel button click
+            if (cancelFriendBtn) {
+                cancelFriendBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeAddFriendModal();
+                });
+            }
+
+            // Click outside modal to close
+            if (addFriendModal) {
+                addFriendModal.addEventListener('click', function (e) {
+                    if (e.target === addFriendModal) {
+                        closeAddFriendModal();
+                    }
+                });
+            }
+
+            // ===== SEND FRIEND REQUEST =====
+            if (sendFriendBtn) {
+                sendFriendBtn.addEventListener('click', async function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (!friendIdInput) return;
+
+                    const friendId = friendIdInput.value.trim();
+                    if (!friendId) {
+                        friendIdInput.style.borderColor = '#ef4444';
+                        friendIdInput.placeholder = 'Please enter a friend ID';
+                        friendIdInput.value = '';
+                        setTimeout(() => {
+                            friendIdInput.style.borderColor = '';
+                            friendIdInput.placeholder = "Enter friend's ID";
+                        }, 2000);
+                        return;
+                    }
+
+                    sendFriendBtn.disabled = true;
+                    sendFriendBtn.textContent = 'Sending...';
+
+                    try {
+                        const response = await fetch('/sendFriendRequest', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ friendId: friendId })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            alert('Friend request sent successfully!');
+                            closeAddFriendModal();
+                        } else {
+                            alert(data.message || 'Failed to send friend request. Please try again.');
+                        }
+                    } catch (error) {
+                        alert('Failed to send friend request. Please try again.');
+                        console.error('Error:', error);
+                    } finally {
+                        sendFriendBtn.disabled = false;
+                        sendFriendBtn.textContent = 'Send Request';
+                    }
+                });
+            }
+
+            // Enter key to send
+            if (friendIdInput) {
+                friendIdInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter' && sendFriendBtn) {
+                        sendFriendBtn.click();
+                    }
+                });
+            }
+
+            // ===== FRIEND REQUESTS MODAL =====
+            const requestsModal = document.getElementById('requestsModal');
+            const requestsList = document.getElementById('requestsList');
+            const closeRequestsBtn = document.getElementById('closeRequestsBtn');
+            const requestsBtn = document.getElementById('requestsBtn');
+
+            function renderRequests() {
+                if (!requestsList) return;
+
+                const requests = user.friendRequests || [];
+                console.log('Rendering requests:', requests);
+
+                if (requests.length === 0) {
+                    requestsList.innerHTML = `
+                        <div class="empty-requests">
+                            <span class="material-symbols-outlined">inbox</span>
+                            <p>No pending friend requests</p>
+                        </div>
+                    `;
+                } else {
+                    requestsList.innerHTML = requests.map(req => `
+                        <div class="request-item">
+                            <div class="request-info">
+                                <div class="request-avatar">
+                                    <span class="material-symbols-outlined">person</span>
+                                </div>
+                                <div>
+                                    <div class="request-name">${req.name || 'Unknown User'}</div>
+                                    <div class="request-status">@${req.from || req.id || 'user'}</div>
+                                </div>
+                            </div>
+                            <span class="request-status" style="color: #f59e0b;">Pending</span>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            function openRequestsModal() {
+                if (!requestsModal) return;
+                renderRequests();
+                requestsModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+
+            function closeRequestsModal() {
+                if (!requestsModal) return;
+                requestsModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+
+            if (requestsBtn) {
+                requestsBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openRequestsModal();
+                });
+            }
+
+            if (closeRequestsBtn) {
+                closeRequestsBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeRequestsModal();
+                });
+            }
+
+            if (requestsModal) {
+                requestsModal.addEventListener('click', function (e) {
+                    if (e.target === requestsModal) {
+                        closeRequestsModal();
+                    }
+                });
+            }
+
+            // ===== COMPETE ITEM CLICK =====
+            const competeItem = document.getElementById('competeItem');
+            if (competeItem) {
+                competeItem.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    alert('Redirecting to competition page...');
+                    // window.location.href = '/competition';
+                });
+            }
+
+            // ===== PREFERENCE ITEMS =====
+            document.querySelectorAll('.preference-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    const text = this.querySelector('.preference-item-left span:last-child').textContent;
+                    alert(`Navigating to ${text}...`);
+                });
             });
-        });
 
+            // ===== SETTINGS BUTTON =====
+            const settingsBtn = document.querySelector('[aria-label="Settings"]');
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    alert('Opening settings...');
+                });
+            }
 
-
-        // Section action button
-        document.querySelector('.section-action').addEventListener('click', function () {
-            alert('Add Friend feature coming soon!');
-        });
-
-        // Preference items
-        document.querySelectorAll('.preference-item').forEach(item => {
-            item.addEventListener('click', function () {
-                const text = this.querySelector('.preference-item-left span:last-child').textContent;
-                alert(`Navigating to ${text}...`);
+            // ===== ESCAPE KEY TO CLOSE MODALS =====
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    if (addFriendModal && addFriendModal.classList.contains('active')) {
+                        closeAddFriendModal();
+                    }
+                    if (requestsModal && requestsModal.classList.contains('active')) {
+                        closeRequestsModal();
+                    }
+                }
             });
+
         });
     </script>
 </body>
