@@ -18,7 +18,7 @@ module.exports.logoutUser = (req, res) => {
 
 module.exports.registerUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { fullName, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -29,8 +29,7 @@ module.exports.registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
-        await User.create({
-            username,
+        const user = await User.create({
             email,
             password: hashedPassword
         });
