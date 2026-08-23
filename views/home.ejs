@@ -28,24 +28,49 @@
         <section class="habits-section">
             <% if (habits && habits.length> 0) { %>
                 <% habits.forEach(function(habit) { %>
-                    <a href="/habits/<%= habit._id %>" class="habit-link">
-                        <div class="habit-item">
-                            <!-- Left side: icon + name -->
-                            <div class="habit-left">
-                                <span class="material-symbols-outlined habit-icon"
-                                    style="color: <%= habit.iconColor || '#6366f1' %>">
-                                    <%= habit.icon || 'check_circle' %>
-                                </span>
-                                <span class="habit-name">
-                                    <%= habit.habitName %>
-                                </span>
-                            </div>
-                            <!-- Right side: checkbox fixed to the right -->
-                            <input type="checkbox" class="habit-checkbox" data-habit-id="<%= habit._id %>"
-                                <%=habit.isCompletedToday ? 'checked' : '' %>
-                            onclick="updateHabit('<%= habit._id %>', this.checked)" />
+                    <div class="habit-item <%= habit.isCompletedToday ? 'completed' : '' %>"
+                        data-habit-id="<%= habit._id %>">
+                        <!-- Left side: icon + name -->
+                        <div class="habit-left">
+                            <span class="material-symbols-outlined habit-icon"
+                                style="color: <%= habit.iconColor || '#6366f1' %>">
+                                <%= habit.icon || 'check_circle' %>
+                            </span>
+                            <span class="habit-name">
+                                <%= habit.habitName %>
+                            </span>
+                            <% if (habit.isCompletedToday) { %>
+                                <span class="completed-badge">✓ Done</span>
+                                <% } %>
                         </div>
-                    </a>
+
+                        <!-- Right side: Different controls based on habit type -->
+                        <% if (habit.habitType==='measurable' ) { %>
+                            <!-- Measurable habit: Clickable circle input -->
+                            <div class="habit-input-wrapper">
+                                <div class="circle-input-container <%= habit.isCompletedToday ? 'completed' : '' %>"
+                                    onclick="openValueInput('<%= habit._id %>', '<%= habit.habitType %>')">
+                                    <div class="circle-value-display" id="valueDisplay_<%= habit._id %>">
+                                        <%= habit.achievedTarget !==null && habit.achievedTarget !==undefined ?
+                                            habit.achievedTarget : 0 %>
+                                    </div>
+                                    <div class="circle-unit">
+                                        <%= habit.measurementUnit || 'units' %>
+                                    </div>
+                                    <div class="circle-edit-hint">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <!-- Yes/No habit: Checkbox -->
+                                <input type="checkbox" class="habit-checkbox" data-habit-id="<%= habit._id %>"
+                                    data-habit-type="<%= habit.habitType %>" <%=habit.isCompletedToday ? 'checked' : ''
+                                    %>
+                                onclick="updateHabit('<%= habit._id %>', this.checked, '<%= habit.habitType %>')"
+                                        />
+                                        <% } %>
+                    </div>
                     <% }); %>
                         <% } else { %>
                             <div class="empty-state">
@@ -74,30 +99,190 @@
         </a>
     </nav>
 
+    <!-- ========== CUSTOM NUMBER INPUT MODAL ========== -->
+    <div class="modal-overlay" id="valueModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Enter Value</h3>
+                <button class="modal-close-btn" onclick="closeModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-unit-display" id="modalUnitDisplay">units</div>
+                <input type="number" class="modal-input" id="modalValueInput" step="any" min="0"
+                    placeholder="Enter value..." />
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button class="modal-btn modal-btn-save" onclick="saveValue()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        async function updateHabit(habitId, isChecked) {
-            await fetch(`/habitsUpdate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ completed: isChecked, habitId: habitId })
-            })
-            console.log('Habit ID:', habitId, 'Checked:', isChecked);
+        // ========== STATE ==========
+        let currentHabitId = null;
+        let currentHabitType = null;
+
+        // ========== YES/NO HABIT UPDATE ==========
+        async function updateHabit(habitId, isChecked, habitType) {
+            try {
+                const response = await fetch(`/habitsUpdate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        habitType: habitType,
+                        habitId: habitId,
+                        completed: isChecked || null,
+                    })
+                });
+                const data = await response.json();
+                console.log('Habit updated:', data);
+                // Reload page to reflect changes
+                if (data.success) {
+                    setTimeout(() => location.reload(), 500);
+                }
+            } catch (error) {
+                console.error('Error updating habit:', error);
+            }
         }
 
-        // ========== SOCKET.IO SETUP ==========
-        // Uncomment this when you're ready to implement socket.io
+        // ========== MEASURABLE HABIT - OPEN VALUE INPUT ==========
+        function openValueInput(habitId, habitType) {
+            currentHabitId = habitId;
+            currentHabitType = habitType;
+            console.log('Opening modal for habit:', habitId, 'Type:', habitType);
+
+            const displayEl = document.getElementById(`valueDisplay_${habitId}`);
+            const currentValue = parseFloat(displayEl.textContent) || 0;
+
+            // Get the unit from the circle
+            const circleContainer = displayEl.closest('.circle-input-container');
+            const unitEl = circleContainer.querySelector('.circle-unit');
+            const unit = unitEl ? unitEl.textContent : 'units';
+
+            // Set modal values
+            document.getElementById('modalUnitDisplay').textContent = unit;
+            document.getElementById('modalValueInput').value = currentValue;
+            document.getElementById('modalValueInput').placeholder = `Enter value in ${unit}`;
+
+            // Show modal
+            document.getElementById('valueModal').classList.add('show');
+
+            // Focus input after animation
+            setTimeout(() => {
+                document.getElementById('modalValueInput').focus();
+                document.getElementById('modalValueInput').select();
+            }, 300);
+        }
+
+        // ========== SAVE VALUE FROM MODAL ==========
+        async function saveValue() {
+            const input = document.getElementById('modalValueInput');
+            const value = parseFloat(input.value);
+
+            if (isNaN(value) || value < 0) {
+                input.classList.add('error');
+                setTimeout(() => input.classList.remove('error'), 500);
+                return;
+            }
+
+            // Get the habit ID and type from global variables
+            const habitId = currentHabitId;
+            const habitType = currentHabitType;
+
+            console.log('Saving value - Habit ID:', habitId, 'Type:', habitType, 'Value:', value);
+
+            // Check if habitId is null or undefined
+            if (!habitId) {
+                console.error('Error: Habit ID is null or undefined');
+                return;
+            }
+
+            // Update display
+            const displayEl = document.getElementById(`valueDisplay_${habitId}`);
+            if (displayEl) {
+                displayEl.textContent = value;
+                // Add pulse animation
+                displayEl.classList.add('pulse');
+                setTimeout(() => displayEl.classList.remove('pulse'), 300);
+            }
+
+            // Close modal
+            closeModal();
+
+            // Send to server using /habitsUpdate endpoint with real variables
+            try {
+                const response = await fetch(`/habitsUpdate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        habitType: habitType,
+                        habitId: habitId,
+                        completed: null,
+                        achievedTarget: value
+                    })
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    console.error('Failed to update measurable habit:', data);
+                } else {
+                    console.log('Measurable habit updated successfully:', data);
+                    // Reload page to reflect changes
+                    setTimeout(() => location.reload(), 500);
+                }
+            } catch (error) {
+                console.error('Error updating measurable habit:', error);
+            }
+        }
+
+        // ========== MODAL CONTROLS ==========
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('valueModal').classList.remove('show');
+            // Don't reset the habit ID and type here - keep them for the save operation
+            // They will be reset when opening a new modal
+        }
+
+        // Reset current habit data when modal is closed completely
+        function resetHabitData() {
+            currentHabitId = null;
+            currentHabitType = null;
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                resetHabitData();
+            }
+            if (e.key === 'Enter' && document.getElementById('valueModal').classList.contains('show')) {
+                saveValue();
+            }
+        });
+
+        // ========== SOCKET.IO SETUP (Optional) ==========
+        // Uncomment when ready to implement socket.io
         /*
         const socket = io();
 
-        // Listen for habit update confirmations from server
         socket.on('habit-updated', function(data) {
             if (data.success) {
-                const checkbox = document.querySelector(`.habit-checkbox[data-habit-id="${data.habitId}"]`);
-                if (checkbox) {
-                    // Just log the update - no visual changes
-                    console.log('Habit updated:', data.habitId, data.completed);
+                if (data.habitType === 'measurable') {
+                    const displayEl = document.getElementById(`valueDisplay_${data.habitId}`);
+                    if (displayEl) {
+                        displayEl.textContent = data.value;
+                    }
+                } else {
+                    const checkbox = document.querySelector(`.habit-checkbox[data-habit-id="${data.habitId}"]`);
+                    if (checkbox) {
+                        checkbox.checked = data.completed;
+                    }
                 }
             }
         });

@@ -3,7 +3,17 @@ const Habbit = require('../model/habbit');
 
 module.exports.addHabbit = async (req, res) => {
     try {
-        const { habitType, habitName, habitQuestion, frequency, icon, iconColor } = req.body;
+        const { habitType, habitName, habitQuestion, frequency, icon, iconColor, measurementUnit, target } = req.body;
+
+        if (!habitName || !habitQuestion || !frequency || !icon || !iconColor) {
+            res.redirect("/addHabit")
+        }
+
+        if (habitType == "measurable") {
+            if (!measurementUnit || !target) {
+                res.redirect("/addHabit")
+            }
+        }
 
         const userId = req.user.userId;
         const user = await User.findById(userId);
@@ -13,9 +23,13 @@ module.exports.addHabbit = async (req, res) => {
             habitName: habitName,
             habitType: habitType,
             frequency: frequency,
+            measurementUnit: measurementUnit || null,
+            target: target || null,
+            achievedTarget: null,
             icon: icon || 'check_circle',
             iconColor: iconColor || '#6366f1'
         };
+
 
         const habbit = new Habbit(habitData);
         await habbit.save();
@@ -33,7 +47,7 @@ module.exports.addHabbit = async (req, res) => {
 
 module.exports.habitUpdate = async (req, res) => {
     try {
-        const { habitId, completed } = req.body;
+        const { habitId, completed, achievedTarget } = req.body;
         const userId = req.user.userId;
 
         let today = new Date().toISOString().split('T')[0];
@@ -44,17 +58,31 @@ module.exports.habitUpdate = async (req, res) => {
             return res.status(404).json({ message: "Habit not found" });
         }
 
-        if (completed) {
-            // prevent duplicate dates
-            if (!habit.completedDates.includes(today)) {
-                habit.completedDates.push(today);
+        // if habit type is completed or not
+        if (habit.habitType == "yes or no") {
+            if (completed) {
+                // prevent duplicate dates
+                if (!habit.completedDates.includes(today)) {
+                    habit.completedDates.push(today);
+                }
+            } else {
+                // remove date cleanly
+                habit.completedDates = habit.completedDates.filter(
+                    date => date !== today
+                );
             }
-        } else {
-            // remove date cleanly
-            habit.completedDates = habit.completedDates.filter(
-                date => date !== today
-            );
         }
+
+        // if habit is measurable in units 
+        if (habit.habitType == "measurable") {
+            habit.achievedTarget = achievedTarget;
+            if (achievedTarget >= habit.target) {
+                habit.isCompletedToday = true;
+            } else {
+                habit.isCompletedToday = false;
+            }
+        }
+
 
         await habit.save();
 

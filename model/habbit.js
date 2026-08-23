@@ -8,7 +8,7 @@ const habbitSchema = new mongoose.Schema({
     habitType: {
         type: String,
         required: true,
-        enum: ['yes or no', 'measurable', 'monthly', 'weekly', 'daily']
+        enum: ['yes or no', 'measurable']
     },
     isCompletedToday: {
         type: Boolean,
@@ -19,9 +19,22 @@ const habbitSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    measurementUnit: {
+        type: String,
+        enum: ['hours', 'minutes', 'litres', 'kgs', 'Numbers']
+    },
+    target: {
+        type: Number
+    },
+    achievedTarget: {
+        type: Number
+    },
     habitQuestion: {
         type: String,
         required: true
+    },
+    todaysPercentage: {
+        type: Number
     },
     icon: {
         type: String,

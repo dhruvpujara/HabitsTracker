@@ -9,6 +9,8 @@ routes.get('/', isAuthenticated, userController.getHome);
 routes.get('/habits', isAuthenticated, userController.getHabits);
 routes.get('/profile', isAuthenticated, userController.getProfile);
 
+routes.post('/sendRequest', isAuthenticated, userController.sendRequest);
+
 
 
 

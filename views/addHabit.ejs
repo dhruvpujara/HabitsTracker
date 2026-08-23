@@ -98,6 +98,51 @@
                 <input type="hidden" name="frequency" id="frequency" value="daily">
             </section>
 
+            <!-- ========== MEASURABLE UNIT SELECTOR (Hidden by default) ========== -->
+            <section class="form-section measurable-section" id="measurableSection" style="display: none;">
+                <label class="section-label">Measurement Unit</label>
+                <div class="unit-group">
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="hours" />
+                        <span class="unit-label">Hours</span>
+                    </label>
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="minutes" />
+                        <span class="unit-label">Minutes</span>
+                    </label>
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="litres" />
+                        <span class="unit-label">Litres</span>
+                    </label>
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="kgs" />
+                        <span class="unit-label">KGs</span>
+                    </label>
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="Numbers" />
+                        <span class="unit-label">Numbers</span>
+                    </label>
+                    <label class="unit-option">
+                        <input type="radio" name="measurementUnit" value="custom" />
+                        <span class="unit-label">Custom</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- ========== TARGET INPUT (Hidden by default) ========== -->
+            <section class="form-section measurable-section" id="targetSection" style="display: none;">
+                <label class="section-label" for="habit-target">Target Value</label>
+                <div class="input-wrapper">
+                    <input class="form-input" id="habit-target" type="number" name="target"
+                        placeholder="e.g., 2, 30, 100" step="any" min="0" />
+                    <div class="input-icon">
+                        <span class="material-symbols-outlined">target</span>
+                    </div>
+                </div>
+                <p class="helper-text" id="targetHelper">Set your daily/weekly goal. e.g., 2 hours, 30 minutes, 100
+                    pages</p>
+            </section>
+
             <!-- ========== ICON SELECTION - DROPDOWN STYLE ========== -->
             <section class="form-section">
                 <label class="section-label">Choose Icon</label>
@@ -225,9 +270,7 @@
             const dropdown = document.getElementById('iconDropdown');
             dropdown.classList.toggle('show');
             if (dropdown.classList.contains('show')) {
-                // Populate icons when opening
                 populateIcons();
-                // Focus search input
                 setTimeout(() => {
                     document.querySelector('.icon-search input').focus();
                 }, 100);
@@ -241,12 +284,9 @@
 
         // Select icon from dropdown
         function selectIconFromDropdown(icon) {
-            // Update display
             document.getElementById('selectedIconDisplay').textContent = icon;
             document.getElementById('selectedIconName').textContent = icon;
             document.getElementById('selectedIcon').value = icon;
-
-            // Close dropdown
             document.getElementById('iconDropdown').classList.remove('show');
         }
 
@@ -262,18 +302,63 @@
         function selectType(type) {
             const measurable = document.getElementById('type-measurable');
             const yesno = document.getElementById('type-yesno');
+            const measurableSection = document.getElementById('measurableSection');
+            const targetSection = document.getElementById('targetSection');
+            const targetInput = document.getElementById('habit-target');
 
             measurable.classList.remove('active');
             yesno.classList.remove('active');
 
             if (type === 'measurable') {
                 measurable.classList.add('active');
+                measurableSection.style.display = 'block';
+                targetSection.style.display = 'block';
+                // Auto-select first unit option
+                const firstRadio = document.querySelector('input[name="measurementUnit"]');
+                if (firstRadio) firstRadio.checked = true;
+                // Make target required
+                targetInput.required = true;
+                // Update helper text based on selected unit
+                updateTargetHelper();
             } else {
                 yesno.classList.add('active');
+                measurableSection.style.display = 'none';
+                targetSection.style.display = 'none';
+                // Uncheck all radio buttons
+                document.querySelectorAll('input[name="measurementUnit"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                // Remove required attribute
+                targetInput.required = false;
+                // Clear target value
+                targetInput.value = '';
             }
 
             document.getElementById('habitType').value = type;
         }
+
+        // Update target helper text based on selected unit
+        function updateTargetHelper() {
+            const selectedUnit = document.querySelector('input[name="measurementUnit"]:checked');
+            const helperText = document.getElementById('targetHelper');
+
+            if (selectedUnit) {
+                const unitMap = {
+                    'hours': 'Set your daily goal in hours. e.g., 2 hours',
+                    'minutes': 'Set your daily goal in minutes. e.g., 30 minutes',
+                    'litres': 'Set your daily goal in litres. e.g., 3 litres',
+                    'kgs': 'Set your daily goal in kilograms. e.g., 5 kgs',
+                    'Numbers': 'Set your daily goal in numbers. e.g., 100 pages, 10,000 steps',
+                    'custom': 'Set your custom daily goal'
+                };
+                helperText.textContent = unitMap[selectedUnit.value] || 'Set your daily goal';
+            }
+        }
+
+        // Listen for unit selection changes
+        document.querySelectorAll('input[name="measurementUnit"]').forEach(radio => {
+            radio.addEventListener('change', updateTargetHelper);
+        });
 
         // Select frequency
         function selectFrequency(element) {
