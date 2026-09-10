@@ -8,7 +8,14 @@ module.exports.getHabits = async (req, res) => {
     const date = new Date().toISOString().split('T')[0];
     const user = await User.findById(req.user.userId);
     const habits = user.habbits;
+    let habitsData = [];
     let consistencyMessage = null;
+
+    for (habit of habits) {
+        foundData = await Habbit.findById(habit)
+        habitsData.push(foundData)
+    }
+
 
     const checkStatusAndUpdate = async (habit) => {
         const habitFound = await Habbit.findById(habit);
@@ -77,7 +84,8 @@ module.exports.getHabits = async (req, res) => {
 
     res.render('habits', {
         consistencyMessage: consistencyMessage,
-        percentage: percentage
+        percentage: percentage,
+        habits: habitsData
     });
 };
 

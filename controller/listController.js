@@ -93,3 +93,16 @@ module.exports.habitUpdate = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+
+module.exports.deleteHabit = async (req, res) => {
+    const { habitId } = req.body
+    const user = await User.findById(req.user.userId)
+
+    user.habbits = user.habbits.filter(habit => habit !== habitId)
+    await user.save()
+    await Habbit.findByIdAndDelete(habitId)
+
+
+    res.redirect("/habits")
+}

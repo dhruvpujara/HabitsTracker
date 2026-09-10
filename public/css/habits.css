@@ -1,5 +1,5 @@
 /* ============================================
-   Serene Habit - Main Styles
+   Serene Habit - Dashboard Styles
    Based on Essentialist Minimalism design system
    ============================================ */
 
@@ -248,7 +248,7 @@ body {
 .habits-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .habit-card {
@@ -256,15 +256,19 @@ body {
     border: 1px solid #bfc8c8;
     padding: 16px;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .habit-card:active {
     background-color: #e0e7e7;
     transform: scale(0.98);
+}
+
+.habit-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
 
 .habit-content {
@@ -281,10 +285,12 @@ body {
     align-items: center;
     justify-content: center;
     color: #7f4f3b;
+    flex-shrink: 0;
 }
 
 .bg-tertiary-fixed {
     background-color: #ffdbcd;
+    color: #7f4f3b;
 }
 
 .bg-primary-fixed {
@@ -319,27 +325,93 @@ body {
     color: #404848;
 }
 
-.habit-checkbox {
-    width: 32px;
-    height: 32px;
-    border: 2px solid #707978;
-    border-radius: 2px;
+.habit-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.habit-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+    border-radius: 50%;
+    transition: background 0.15s;
+    width: 32px;
+    height: 32px;
 }
 
-.habit-checkbox.checked {
+.habit-actions .edit-btn {
+    color: #586060;
+}
+
+.habit-actions .edit-btn:hover {
+    background: #dde4e4;
+}
+
+.habit-actions .delete-btn {
+    color: #ba1a1a;
+}
+
+.habit-actions .delete-btn:hover {
+    background: #ffdad6;
+}
+
+.delete-form {
+    display: inline;
+}
+
+/* ---------- Bar Graph (trend) ---------- */
+.trend-section {
+    margin-top: 4px;
+}
+
+.trend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.trend-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #586060;
+}
+
+.trend-percent {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #306363;
+}
+
+.bars-container {
+    display: flex;
+    gap: 4px;
+    height: 32px;
+    align-items: flex-end;
+}
+
+.bar {
+    flex: 1;
     background-color: #306363;
-    border-color: #306363;
+    border-radius: 2px 2px 0 0;
+    min-height: 4px;
+    transition: height 0.2s ease;
 }
 
-.habit-checkbox .check-icon {
-    font-size: 18px;
-    color: #ffffff;
+.bar.inactive {
+    background-color: #bfc8c8;
 }
 
 /* ---------- Quote Section ---------- */

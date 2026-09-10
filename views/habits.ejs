@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,12 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/habits.css" />
 </head>
-
 <body>
     <!-- ========== TOP NAV ========== -->
     <header class="top-nav">
@@ -52,7 +49,7 @@
                     <div>
                         <p class="stats-label">Consistency</p>
                         <h3 class="stats-value">
-                            <%= percentage %>%
+                            <%= typeof percentage !== 'undefined' ? percentage : 84 %>%
                         </h3>
                     </div>
                     <div class="progress-ring">
@@ -62,17 +59,17 @@
                                 fill="none" stroke-width="2"></path>
                             <path class="ring-progress"
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                fill="none" stroke-dasharray="<%= percentage %>, 100" stroke-linecap="round"
-                                stroke-width="2"></path>
+                                fill="none" stroke-dasharray="<%= typeof percentage !== 'undefined' ? percentage : 84 %>, 100" 
+                                stroke-linecap="round" stroke-width="2"></path>
                         </svg>
                     </div>
                 </div>
                 <p class="stats-description">
-                    <% if (consistencyMessage) { %>
+                    <% if (typeof consistencyMessage !== 'undefined' && consistencyMessage) { %>
                         <%= consistencyMessage %>
-                            <% } else { %>
-                                You've completed 12 habits this week. Keep the momentum!
-                                <% } %>
+                    <% } else { %>
+                        You've completed 12 habits this week. Keep the momentum!
+                    <% } %>
                 </p>
             </div>
         </section>
@@ -85,6 +82,89 @@
             <span class="pill">Productivity</span>
             <span class="pill">Social</span>
         </div>
+
+        <!-- Habits List with Bar Graphs -->
+        <section class="habits-list">
+            <% if (typeof habits !== 'undefined' && habits.length > 0) { %>
+                <% habits.forEach(function(habit) { %>
+                    <div class="habit-card">
+                        <div class="habit-row">
+                            <div class="habit-content">
+                                <div class="habit-icon-wrapper 
+                                    <% if (habit.category === 'Mind') { %>bg-tertiary-fixed<% } 
+                                    else if (habit.category === 'Health') { %>bg-primary-fixed<% } 
+                                    else { %>bg-secondary-container<% } %>">
+                                    <span class="material-symbols-outlined">
+                                        <%= habit.icon || 'star' %>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h4 class="habit-name"><%= habit.habitName %></h4>
+                                    <p class="habit-description">
+                                        <%= habit.description || habit.category || 'Daily' %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="habit-actions">
+                                <button class="edit-btn material-symbols-outlined" onclick="window.location.href='/editHabit/<%= habit._id %>'">edit</button>
+                                <form action="/delete" method="POST" class="delete-form">
+                                    <input type="hidden" name="habitId" value="<%= habit._id %>" />
+                                    <button type="submit" class="delete-btn material-symbols-outlined">delete</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Bar Graph Section -->
+                        <div class="trend-section">
+                            <div class="trend-header">
+                                <span class="trend-label">7 Day Trend</span>
+                                <span class="trend-percent">
+                                    <%= typeof habit.trendPercentage !== 'undefined' ? habit.trendPercentage : 
+                                        (habit.completionRate ? habit.completionRate : 0) %>%
+                                </span>
+                            </div>
+                            <div class="bars-container">
+                                <% 
+                                    // Generate 7 bars based on habit's weekly data
+                                    // If habit has weeklyData array, use it; otherwise generate random-ish data
+                                    var weeklyData = habit.weeklyData || [];
+                                    var bars = [];
+                                    
+                                    if (weeklyData.length === 7) {
+                                        bars = weeklyData;
+                                    } else {
+                                        // Generate sample data (for demo purposes)
+                                        // In production, this would come from the backend
+                                        var baseValue = habit.completionRate || 70;
+                                        for (var i = 0; i < 7; i++) {
+                                            var variation = (Math.random() * 30) - 15;
+                                            var val = Math.min(100, Math.max(5, baseValue + variation));
+                                            bars.push(Math.round(val));
+                                        }
+                                    }
+                                    
+                                    // If we still don't have 7 values, pad with defaults
+                                    while (bars.length < 7) {
+                                        bars.push(60);
+                                    }
+                                    
+                                    // Use first 7 values
+                                    bars = bars.slice(0, 7);
+                                %>
+                                <% bars.forEach(function(value, index) { %>
+                                    <div class="bar <%= value < 30 ? 'inactive' : '' %>" 
+                                         style="height: <%= Math.max(4, value) %>%"></div>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="text-align: center; color: #586060; padding: 40px 0;">
+                    No habits yet. Start by adding your first habit!
+                </p>
+            <% } %>
+        </section>
 
         <!-- Quote / illustration -->
         <section class="quote-section">
@@ -114,5 +194,4 @@
         </a>
     </nav>
 </body>
-
 </html>
